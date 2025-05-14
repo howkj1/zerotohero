@@ -178,9 +178,10 @@ fieldset[disabled] .btn-xl.active {
 .navbar-default .navbar-brand {
     font-family: "Kaushan Script","Helvetica Neue",Helvetica,Arial,cursive;
     color: #{{ site.data.template.color.primary }};
-    filter: drop-shadow(-4px 4px 1px #d400ff)
+    margin-top:-30px
+    /* filter: drop-shadow(-4px 4px 1px #d400ff)
             drop-shadow(-5px 2px 1px #00ff91)
-            drop-shadow(-2px 1px 1px #d400ff);
+            drop-shadow(-2px 1px 1px #d400ff); */
 }
 
 .navbar-default .navbar-brand:hover,
@@ -919,3 +920,26 @@ body {
     }
   }
   
+
+
+.tilt-neon-<uniquifier> {
+    font-family: "Tilt Neon", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "XROT" 0,
+      "YROT" 0;
+  }
+
+
+
+.saira-<uniquifier> {
+    font-family: "Saira", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+  }
+

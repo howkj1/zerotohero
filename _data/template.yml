@@ -7,8 +7,10 @@ color:
 
 # Font Families
 font:
-  primary: 'Montserrat, "Helvetica Neue",Helvetica,Arial,sans-serif'
-  secondary: '"Droid Serif", "Helvetica Neue", Helvetica,Arial,sans-serif'
+  # primary: 'Montserrat, "Helvetica Neue",Helvetica,Arial,sans-serif'
+    primary: '"Saira"'
+  # secondary: '"Droid Serif", "Helvetica Neue", Helvetica,Arial,sans-serif'
+    secondary: '"Saira"'
 
 
 headerbg:
@@ -20,4 +22,3 @@ headerbg:
   # img: /img/Zero 2 Hero BUSINESS SERIES.png
 
   img: /img/Zero2Hero-Header-1280x900.jpg
-  
