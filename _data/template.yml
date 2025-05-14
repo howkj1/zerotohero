@@ -1,7 +1,7 @@
 # Color settings (hex-codes without the leading hash-tag)
 color:
-  primary: c024ff
-  secondary: fec503
+  primary: e7008d
+  secondary: 00fcfb
   secondary-dark: 333
   muted: 777
 
@@ -9,3 +9,12 @@ color:
 font:
   primary: 'Montserrat, "Helvetica Neue",Helvetica,Arial,sans-serif'
   secondary: '"Droid Serif", "Helvetica Neue", Helvetica,Arial,sans-serif'
+
+
+headerbg:
+   img: /img/pexels-vlada-karpovich-4050296.jpg
+  # img: /img/pexels-kindel-media-7688460.jpg
+  # img: /img/D79presentation-crop.png
+  # img: /img/D79presentation.png
+  # img: /img/photo_2025-05-09_10-46-18.jpg
+  # img: /img/Zero 2 Hero BUSINESS SERIES.png
