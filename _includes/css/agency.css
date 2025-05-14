@@ -868,3 +868,54 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: #{{ site.data.template.color.primary }};
 }
+
+
+.circled-number {
+    display: inline-block; /* Maintain inline layout while allowing width/height */
+    width: 3em; /* Adjust as needed for the circle size */
+    height: 3em;
+    line-height: 3em; /* Ensure text is vertically centered */
+    text-align: center; /* Center the number horizontally */
+    border-radius: 50%; /* Creates the circle */
+    background-color: #{{ site.data.template.color.primary }};
+        color: #fff; /* Text color within the circle */
+    font-size: 4rem; /* Adjust font size as desired */
+  }
+
+
+.circled-number-secondary {
+    display: inline-block; /* Maintain inline layout while allowing width/height */
+    width: 3em; /* Adjust as needed for the circle size */
+    height: 3em;
+    line-height: 3em; /* Ensure text is vertically centered */
+    text-align: center; /* Center the number horizontally */
+    border-radius: 50%; /* Creates the circle */
+    background-color: #{{ site.data.template.color.primary }};
+        color: #fff; /* Text color within the circle */
+    font-size: 4rem; /* Adjust font size as desired */
+  }
+
+
+  .background-video-wrapper {
+    color: #fff;
+    background: #000;
+    text-align: center;
+    position: relative;
+    video {
+      opacity:.5;
+      background: #000;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+    }
+    .copy {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      margin: 10vmax 4rem;
+    }
+  }
+  

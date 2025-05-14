@@ -1,7 +1,7 @@
 # Color settings (hex-codes without the leading hash-tag)
 color:
-  primary: e7008d
-  secondary: 00fcfb
+  primary: e7008d #pink
+  secondary: 00fcfb #teal
   secondary-dark: 333
   muted: 777
 
@@ -12,9 +12,12 @@ font:
 
 
 headerbg:
-   img: /img/pexels-vlada-karpovich-4050296.jpg
+  # img: /img/pexels-vlada-karpovich-4050296.jpg
   # img: /img/pexels-kindel-media-7688460.jpg
   # img: /img/D79presentation-crop.png
   # img: /img/D79presentation.png
   # img: /img/photo_2025-05-09_10-46-18.jpg
   # img: /img/Zero 2 Hero BUSINESS SERIES.png
+
+  img: /img/Zero2Hero-Header-1280x900.jpg
+  
