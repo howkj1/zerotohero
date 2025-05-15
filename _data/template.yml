@@ -1,7 +1,8 @@
 # Color settings (hex-codes without the leading hash-tag)
 color:
   primary: e7008d #pink
-  secondary: 00fcfb #teal
+  # secondary: 00fcfb #teal
+  secondary: 47c7ff #darkteal
   secondary-dark: 333
   muted: 777
 

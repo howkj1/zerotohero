@@ -946,7 +946,7 @@ body {
   .rounded-gradient-borders {
     border: double 5px transparent;
     border-radius: 50%;
-    background-image: linear-gradient(white, white), radial-gradient(circle at top left, #EC008C 40%,#00FFFF 85%);
+    background-image: linear-gradient(white, white), radial-gradient(circle at top left, #EC008C 40%,#01c9bf 85%);
     background-origin: border-box;
     background-clip: content-box, border-box;
     display: inline-block;
@@ -954,44 +954,149 @@ body {
   }
   
   
-
-.shine-on-hover {
-
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-    border-radius: 50px;
+.btn.shine-on-hover,
+.btn-xl.shine-on-hover {
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 50px;
+  color: #000 !important; /* Set a default text color */
 }
 
-  .shine-on-hover:before {
-    content: '';
-    background: linear-gradient(45deg,#e437c7, #7346db, #00ffdd98);
-    position: absolute;
-    top: -2px;
-    left:-2px;
-    background-size: 400%;
-    z-index: -1;
-    filter: blur(5px);
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    animation: glowing 20s linear infinite;
-    opacity: 1;
-    transition: opacity .3s ease-in-out;
-    border-radius: 50px;
+.btn.shine-on-hover:before,
+.btn-xl.shine-on-hover:before {
+  content: '';
+  background: linear-gradient(45deg, #e437c7, #7346db, #00ffdd);
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 20s linear infinite;
+  opacity: 1;
+  transition: opacity .3s ease-in-out;
+  border-radius: 50px;
 }
 
-.shine-on-hover:hover:before {
-    opacity: 0;
+.btn.shine-on-hover:hover:before,
+.btn-xl.shine-on-hover:hover:before {
+  opacity: 0;
 }
 
-.shine-on-hover:after {
-    z-index: -1;
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 0, 149, 0);
-    left: 0;
-    top: 0;
-    border-radius: 50px;
+.btn.shine-on-hover:after,
+.btn-xl.shine-on-hover:after {
+  z-index: -2; /* Place behind the glowing border */
+  content: '';
+  position: absolute;
+  width: calc(100% - 8px); /* Adjust size to be inside the border */
+  height: calc(100% - 8px); /* Adjust size to be inside the border */
+  background-image: linear-gradient(to right, #FFF 20%, #FF0 40%, #FF0 60%, #FFF 80%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent !important;
+  animation: background-shine 1s linear infinite; /* New animation name */
+  left: 4px; /* Adjust position */
+  top: 4px; /* Adjust position */
+  border-radius: inherit; /* Inherit the button's border-radius */
+}
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+@keyframes background-shine { /* Animation for the pseudo-element background */
+  to {
+    background-position: 200% center;
+  }
+}
+
+.btn.linear-wipe,
+.btn-xl.linear-wipe {
+  /* Your existing styles */
+  position: relative; /* Needed for z-index to work */
+  z-index: 1; /* Ensure the button (and its text) is on top */
+  text-align: center;
+  background-image: linear-gradient(to right, #FFF 20%, rgb(255, 0, 221) 40%, rgb(0, 247, 255) 60%, #FFF 80%);
+  background-size: 200% auto;
+  color: #000;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 1s linear infinite;
+  border: none; /* Remove button borders that might interfere */
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+
+.navbar-nav li {
+  line-height: your-button-height; /* Replace with the actual height of your .btn-xl */
+}
+
+.btn-xl {
+  /* Your existing button styles */
+  padding: 15px 30px; /* Example padding */
+  font-size: 20px; /* Example font size */
+  /* Make sure the height is determined by padding and font-size */
+}
+
+
+/*
+ * CSS for shrinking and left-justifying the navbar brand image
+ * when the hamburger menu is open.
+ */
+
+.navbar-brand img {
+  /* Default state: full size, transformation originates from the center */
+  transform: scale(1);
+  transform-origin: center center; /* Or your desired default origin if not center */
+
+  /*
+   * Transition for both the transform (scale) and transform-origin.
+   * This ensures the scaling and the shift in anchor point are smooth.
+   */
+  transition: transform 0.35s ease-in-out, transform-origin 0.35s ease-in-out;
+}
+
+/*
+ * Style for the image when the hamburger menu is open
+ * (when .navbar-toggle does NOT have the class "collapsed").
+ */
+.navbar-header .navbar-toggle:not(.collapsed) + .navbar-brand img {
+  /* Shrunk state: 60% smaller */
+  transform: scale(0.4);
+  /*
+   * Change transform-origin to the left edge (0% on X-axis, 50% on Y-axis for vertical centering).
+   * This makes the image scale down towards its left side, creating the
+   * "left-justified" effect during the shrink.
+   */
+  transform-origin: left center; /* You can use '0% 50%' as an equivalent */
+}
+
+
+
+.bounce-image {
+  animation: bounce 0.5s ease infinite alternate; /* Adjust duration and easing as desired */
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px); /* Adjust the bounce height as needed */
+  }
+  60% {
+    transform: translateY(-8px); /* Slightly less bounce on the way down */
+  }
 }
