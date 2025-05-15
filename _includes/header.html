@@ -53,6 +53,37 @@
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li>
+
+
+
+                    <li>
+                        <!-- Noscript content for added SEO -->
+                        <noscript>
+                            <a href="https://www.eventbrite.com/e/zero-to-hero-business-series-likes-ledgers-tickets-1341319445569"
+                                rel="noopener noreferrer" target="_blank">Buy Tickets on Eventbrite</a>
+                        </noscript>
+                        <!-- You can customize this button any way you like -->
+                        <button id="eventbrite-widget-modal-trigger-1341319445569" class="btn btn-xl shine-on-hover">Buy Tickets</button>
+                        
+                        <script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>
+                        
+                        <script type="text/javascript">
+                            var exampleCallback = function () {
+                                console.log('Order complete!');
+                            };
+
+                            window.EBWidgets.createWidget({
+                                widgetType: 'checkout',
+                                eventId: '1341319445569',
+                                modal: true,
+                                modalTriggerElementId: 'eventbrite-widget-modal-trigger-1341319445569',
+                                onOrderComplete: exampleCallback
+                            });
+                        </script>
+                    </li>
+
+
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
