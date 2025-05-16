@@ -14,12 +14,16 @@ body {
     color: #{{ site.data.template.color.muted }};
 }
 
+.text-muted-lg {
+    color: #{{ site.data.template.color.mutedlg }};
+}
+
 .text-primary {
     color: #{{ site.data.template.color.primary }};
 }
 
 p {
-    font-size: 20px;
+    font-size: 23px;
     line-height: 1.75;
 }
 
@@ -1235,4 +1239,32 @@ section#map:-ms-input-placeholder {
 
 section#map .text-danger {
     color: #e74c3c;
+}
+
+/* 
+section#event {
+    background-image: url('{{ site.baseurl }}/img/studio205.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+} */
+
+.fa-stack.fa-4x > .fa-circle.fa-stack-2x.text-primary {
+  /* Apply the gradient to the circle */
+  background-image: linear-gradient(to bottom right, #{{ site.data.template.color.primary }}, #{{ site.data.template.color.secondary }});
+  color: transparent;  /* Make the icon color transparent */
+  border-radius: 50%; /* Make it a circle */
+  display: flex; /* For centering the icon inside */
+  align-items: center;
+  justify-content: center;
+}
+
+.fa-stack.fa-4x > .fa-laptop.fa-stack-1x.fa-inverse {
+  /* Ensure icon is centered and sized correctly */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5em; /* adjust as needed */
+  color: white; /* Set the color of the foreground icon */
 }

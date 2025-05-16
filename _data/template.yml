@@ -5,6 +5,7 @@ color:
   secondary: 47c7ff #darkteal
   secondary-dark: 333
   muted: 777
+  mutedlg: a3a3a3
 
 # Font Families
 font:
