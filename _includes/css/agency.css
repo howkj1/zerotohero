@@ -1171,5 +1171,68 @@ body {
 }
 
 
+section#map {
+    background-color: #222;
+    background-image: url('{{ site.baseurl }}/img/map-image.png');
+    background-position: center;
+    background-repeat: no-repeat;
+}
 
 
+section#map .section-heading {
+    color: #fff;
+}
+
+section#map .form-group {
+    margin-bottom: 25px;
+}
+
+section#map .form-group input,
+section#map .form-group textarea {
+    padding: 20px;
+}
+
+section#map .form-group input.form-control {
+    height: auto;
+}
+
+section#map .form-group textarea.form-control {
+    height: 236px;
+}
+
+section#map .form-control:focus {
+    border-color: #{{ site.data.template.color.primary }};
+    box-shadow: none;
+}
+
+section#map::-webkit-input-placeholder {
+    text-transform: uppercase;
+    font-family: {{ site.data.template.font.primary }};
+    font-weight: 700;
+    color: #bbb;
+}
+
+section#map:-moz-placeholder {
+    text-transform: uppercase;
+    font-family: {{ site.data.template.font.primary }};
+    font-weight: 700;
+    color: #bbb;
+}
+
+section#map::-moz-placeholder {
+    text-transform: uppercase;
+    font-family: {{ site.data.template.font.primary }};
+    font-weight: 700;
+    color: #bbb;
+}
+
+section#map:-ms-input-placeholder {
+    text-transform: uppercase;
+    font-family: {{ site.data.template.font.primary }};
+    font-weight: 700;
+    color: #bbb;
+}
+
+section#map .text-danger {
+    color: #e74c3c;
+}
