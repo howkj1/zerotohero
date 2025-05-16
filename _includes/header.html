@@ -25,11 +25,32 @@
                 </a>
 
 
+                <span>
+                    <!-- Noscript content for added SEO -->
+                    <noscript>
+                        <a href="https://www.eventbrite.com/e/zero-to-hero-business-series-likes-ledgers-tickets-1341319445569"
+                            rel="noopener noreferrer" target="_blank">Buy Tickets on Eventbrite</a>
+                    </noscript>
+                    <!-- You can customize this button any way you like -->
+                    <button id="eventbrite-widget-modal-trigger-1341319445569" class="btn btn-xl linear-wipe">Buy Tickets</button>
+                    
+                    <script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>
+                    
+                    <script type="text/javascript">
+                        var exampleCallback = function () {
+                            console.log('Order complete!');
+                        };
 
-
-
-
-
+                        window.EBWidgets.createWidget({
+                            widgetType: 'checkout',
+                            eventId: '1341319445569',
+                            modal: true,
+                            modalTriggerElementId: 'eventbrite-widget-modal-trigger-1341319445569',
+                            onOrderComplete: exampleCallback
+                        });
+                    </script>
+                    
+                </span>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -57,32 +78,8 @@
 
 
                     <li>
-                        <!-- Noscript content for added SEO -->
-                        <noscript>
-                            <a href="https://www.eventbrite.com/e/zero-to-hero-business-series-likes-ledgers-tickets-1341319445569"
-                                rel="noopener noreferrer" target="_blank">Buy Tickets on Eventbrite</a>
-                        </noscript>
                         <!-- You can customize this button any way you like -->
-                        <button id="eventbrite-widget-modal-trigger-1341319445569" class="btn btn-xl linear-wipe">Buy Tickets</button>
-                        
-                        <script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>
-                        
-                        <script type="text/javascript">
-                            var exampleCallback = function () {
-                                console.log('Order complete!');
-                            };
-
-                            window.EBWidgets.createWidget({
-                                widgetType: 'checkout',
-                                eventId: '1341319445569',
-                                modal: true,
-                                modalTriggerElementId: 'eventbrite-widget-modal-trigger-1341319445569',
-                                onOrderComplete: exampleCallback
-                            });
-                        </script>
-                        
-                        <!-- <img class="bounce-image" src="/img/logos/z2h-logo-small-150px.png" style="scale: .3; margin-left: -50px;"></img> -->
-
+                        <button id="eventbrite-widget-modal-trigger-1341319445569" class="btn btn-xl linear-wipe element-hider">Buy Event Tickets</button>  
                     </li>
 
 

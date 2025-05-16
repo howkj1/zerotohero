@@ -1085,6 +1085,7 @@ body {
 
 
 
+
 .bounce-image {
   animation: bounce 0.5s ease infinite alternate; /* Adjust duration and easing as desired */
 }
@@ -1098,5 +1099,16 @@ body {
   }
   60% {
     transform: translateY(-8px); /* Slightly less bounce on the way down */
+  }
+}
+
+
+.element-hider {
+  display: none !important; /* Hidden by default */
+}
+
+@media (max-width: 767px) { /* Bootstrap 3.2.0 typically collapses below 768px */
+  .element-hider {
+    display: block !important; /* Or inline, inline-block, etc. */
   }
 }
