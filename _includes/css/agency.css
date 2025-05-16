@@ -1112,3 +1112,64 @@ body {
     display: block !important; /* Or inline, inline-block, etc. */
   }
 }
+
+
+
+/* Your base .number-circle and responsive modifier */
+.number-circle {
+  display: flex; /* Use flexbox for centering */
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  text-align: center;
+  font-weight: bold;
+}
+
+.number-circle.large {
+  width: 80px; /* Initial size - matches .timeline-image */
+  height: 80px;
+  font-size: 2em;
+}
+
+@media(min-width:768px) {
+  .number-circle.large {
+    width: 100px; /* Matches larger .timeline-image */
+    height: 100px;
+    font-size: 2.5em;
+  }
+}
+
+@media(min-width:992px) {
+  .number-circle.large {
+    width: 150px; /* Matches larger .timeline-image */
+    height: 150px;
+    font-size: 3em;
+  }
+}
+
+@media(min-width:1200px) {
+  .number-circle.large {
+    width: 170px; /* Matches largest .timeline-image */
+    height: 170px;
+    font-size: 3.5em;
+  }
+}
+
+/* Style to make the number circle look like the image circle */
+.timeline-image > .number-circle.large {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Take full width of .timeline-image */
+  height: 100%; /* Take full height of .timeline-image */
+  background-image: linear-gradient(to bottom right, #{{ site.data.template.color.primary }}, #{{ site.data.template.color.secondary }});
+  color: #fff; /* White text */
+}
+
+.number-circle.secondary-bg {
+    background-image: linear-gradient(to bottom right, #{{ site.data.template.color.secondary }}, #{{ site.data.template.color.primary }}) !important;
+}
+
+
+
+
