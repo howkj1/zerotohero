@@ -1,0 +1,141 @@
+<!-- FAQ Section -->
+    <section id="faq" class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <header class="faqs__topic">
+                        <h2>Likes & Ledgers Event FAQ</h2>
+                    </header>
+                    <h3 class="section-subheading text-muted-lg" style="color: aqua;">What to know: </h3>
+                </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="faq__wrapper collapse--block is-text-link has-icon">
+
+                        <h3>
+                            <a class="faq__link" data-toggle="collapse" href="#This-is-question-one" aria-expanded="false" aria-controls="This-is-question-one">
+                             When does the event start?
+                            </a>
+                        </h3>
+                        <div class="collapse" id="This-is-question-one">
+                            <div class="faq__content">
+                                <p>Doors open at 8 AM. </br>
+                                    The event will start promptly at 8:30 AM. </br>
+                                    Be sure to allow for time to be parked, checked-in / registered, and seated by 8:30 AM.</p>
+                            </div>
+                        </div>
+                        
+                        
+                        <h3>
+                            <a class="faq__link" data-toggle="collapse" href="#This-is-question-two" aria-expanded="false" aria-controls="This-is-question-two">
+                                Is there parking nearby?
+                            </a>
+                        </h3>
+                        <div class="collapse" id="This-is-question-two">
+                            <div class="faq__content">
+                                <p>- Studio205: </br>Limited parking is available directly at the venue. 
+                                </br>
+                                    - Street Parking: </br>You'll find additional parking on Tama Street, Benton Street, and 5th Street. 
+                                </br>
+                                    - Additional parking at South Story Bank.</p>
+                            </div>
+                        </div>
+                        
+                        
+                        <h3>
+                            <a class="faq__link" data-toggle="collapse" href="#This-is-question-three" aria-expanded="false"
+                                aria-controls="This-is-question-three">
+                                Where should I NOT park?
+                            </a>
+                        </h3>
+                        <div class="collapse" id="This-is-question-three">
+                            <div class="faq__content">
+                                <p>Please Avoid: </br>Parking is NOT permitted at Casey's or the gravel lot located east of Casey's.</p>
+                            </div>
+                        </div>
+                        
+                        
+                        <h3>
+                            <a class="faq__link" data-toggle="collapse" href="#This-is-question-four" aria-expanded="false"
+                                aria-controls="This-is-question-four">
+                                Will breakfast be available?
+                            </a>
+                        </h3>
+                        <div class="collapse" id="This-is-question-four">
+                            <div class="faq__content">
+                                <p>While a full hot breakfast will not be available, snacks, coffee, and water will be provided.</p>
+                            </div>
+                        </div>
+                        
+                        
+                        <h3>
+                            <a class="faq__link" data-toggle="collapse" href="#This-is-question-five" aria-expanded="false"
+                                aria-controls="This-is-question-five">
+                                Will lunch be served?
+                            </a>
+                        </h3>
+                        <div class="collapse" id="This-is-question-five">
+                            <div class="faq__content">
+                                <p>Lunch is not included in the event. </br>
+                                    After-party networking mixer details will be announced during the event. </br>
+                                    Attendees are encouraged to support local area businesses. </br>
+                                    Stay tuned for details!
+                                </p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <script>
+        // Inline JavaScript for this specific FAQ section
+        document.addEventListener('DOMContentLoaded', function () {
+            const faqLinks = document.querySelectorAll('.faq__link');
+
+            faqLinks.forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    const targetContentId = this.getAttribute('aria-controls');
+                    const targetContent = document.getElementById(targetContentId);
+
+                    // Close all other open FAQ items within the current document
+                    // Ensure this only affects FAQs if you have multiple independent sections
+                    faqLinks.forEach(otherLink => {
+                        if (otherLink !== this && otherLink.getAttribute('aria-expanded') === 'true') {
+                            otherLink.setAttribute('aria-expanded', 'false');
+                            const otherContentId = otherLink.getAttribute('aria-controls');
+                            document.getElementById(otherContentId).setAttribute('aria-hidden', 'true');
+                        }
+                    });
+
+                    // Toggle the clicked FAQ item
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    if (targetContent) {
+                        targetContent.setAttribute('aria-hidden', isExpanded);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        function toggleAnswer(id) {
+            let answer = document.getElementById(id);
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https ://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+                    
+                </div>
+
+            </div>
+        </div>
+    </section>
