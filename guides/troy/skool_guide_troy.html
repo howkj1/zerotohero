@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Skool Setup Guide — Mindset Over Matter</title>
+<style>
+:root {
+  --green:    #1A6B3C;
+  --green-lt: #E8F6EE;
+  --green-md: #2E9E5E;
+  --navy:     #1B3A5C;
+  --steel:    #2563A8;
+  --sky:      #EBF4FD;
+  --gold:     #92620A;
+  --amber:    #FFF8E8;
+  --amber-bdr:#e8d8b0;
+  --purple:   #7C3AED;
+  --purple-lt:#F5F3FF;
+  --red-lt:   #FEF2F2;
+  --red-bdr:  #FECACA;
+  --red-text: #991B1B;
+  --border:   #dde5f0;
+  --bg:       #F4F7FB;
+  --white:    #ffffff;
+  --text:     #1a2433;
+  --muted:    #5a6a82;
+  --subtle:   #f7f9fc;
+  --sidebar-w:224px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.65; }
+
+/* ── LAYOUT ── */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: var(--sidebar-w); background: var(--navy); color: white;
+  position: fixed; top: 0; left: 0; bottom: 0;
+  overflow-y: auto; padding: 0 0 40px; z-index: 100; flex-shrink: 0;
+}
+.sidebar-brand { padding: 20px 16px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 8px; }
+.sidebar-brand .platform { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; opacity: .5; margin-bottom: 4px; }
+.sidebar-brand .title { font-size: 13px; font-weight: 700; line-height: 1.35; }
+.sidebar-nav { padding: 4px 0; }
+.nav-section { padding: 8px 16px 4px; font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-top: 8px; }
+.nav-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 16px; font-size: 12px; color: rgba(255,255,255,0.7);
+  text-decoration: none; border-left: 3px solid transparent; line-height: 1.3;
+}
+.nav-link:hover { color: white; background: rgba(255,255,255,0.07); }
+.nav-link .num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: rgba(255,255,255,0.12); font-size: 10px; font-weight: 700; flex-shrink: 0;
+}
+.main { margin-left: var(--sidebar-w); flex: 1; }
+.content { max-width: 820px; padding: 0 40px 80px; }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #1A6B3C 0%, #0f4a28 100%);
+  color: white; padding: 36px 40px 28px; margin-bottom: 0;
+}
+.hero .eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; opacity: .6; margin-bottom: 10px; }
+.hero h1 { font-size: 26px; font-weight: 800; line-height: 1.25; margin-bottom: 10px; }
+.hero p { font-size: 14px; opacity: .85; max-width: 580px; line-height: 1.6; margin-bottom: 16px; }
+.badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.badge-green { background: rgba(255,255,255,0.15); color: white; }
+.badge-warn  { background: #FEF9C3; color: #713F12; }
+.badge-blue  { background: rgba(37,99,168,0.25); color: #bdd8f8; }
+
+/* ── PHASE BLOCKS ── */
+.phase-block { margin-top: 40px; scroll-margin-top: 20px; }
+.phase-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 20px; background: white; border: 1px solid var(--border);
+  border-radius: 10px 10px 0 0; border-bottom: 2px solid var(--green);
+}
+.phase-num {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--green); color: white; font-size: 16px; font-weight: 800; flex-shrink: 0;
+}
+.phase-title { font-size: 17px; font-weight: 700; color: var(--navy); }
+.phase-subtitle { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.phase-status-badge {
+  margin-left: auto; padding: 4px 12px; border-radius: 20px;
+  font-size: 11px; font-weight: 700; white-space: nowrap;
+}
+.psb-todo    { background: #F1F5F9; color: #475569; }
+.psb-action  { background: #FEF2F2; color: #991B1B; }
+.psb-first   { background: #ECFDF5; color: #065F46; }
+
+/* ── STATUS BOX ── */
+.phase-status-box {
+  display: flex; flex-wrap: wrap; gap: 0;
+  background: var(--subtle); border: 1px solid var(--border);
+  border-top: none; border-radius: 0; padding: 0; margin-bottom: 16px;
+}
+.psb-section { flex: 1; min-width: 160px; padding: 14px 18px; border-right: 1px solid var(--border); }
+.psb-section:last-child { border-right: none; }
+.psb-section h5 { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.psb-section ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.psb-section li { font-size: 12.5px; display: flex; gap: 6px; align-items: flex-start; }
+.psb-section li.todo::before    { content: "◻"; color: #94A3B8; flex-shrink: 0; }
+.psb-section li.done::before    { content: "✓"; color: var(--green); flex-shrink: 0; font-weight: 700; }
+.psb-section li.warn::before    { content: "!"; color: #C9820A; flex-shrink: 0; font-weight: 700; }
+
+/* ── STEPS ── */
+.steps { background: white; border: 1px solid var(--border); border-top: none; border-radius: 0 0 10px 10px; padding: 0; }
+.step {
+  display: flex; gap: 16px; padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.step:last-child { border-bottom: none; }
+.step-num {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--green-lt); color: var(--green);
+  font-size: 12px; font-weight: 800; flex-shrink: 0; margin-top: 2px;
+}
+.step-body { flex: 1; }
+.step-body strong { display: block; font-size: 14px; color: var(--navy); margin-bottom: 6px; }
+.step-body p { font-size: 13.5px; color: var(--muted); margin-top: 6px; }
+.step-body ul, .step-body ol { margin: 8px 0 0 16px; }
+
+/* ── PATH ── */
+.path {
+  display: inline-block; background: #f0f4ff; border: 1px solid #c7d5f5;
+  border-radius: 5px; padding: 2px 8px; font-size: 12px;
+  font-family: 'Menlo', 'Courier New', monospace; color: var(--navy); margin: 4px 0 6px;
+}
+
+/* ── CALLOUTS ── */
+.callout {
+  border-left: 4px solid; border-radius: 6px;
+  padding: 12px 16px; margin: 12px 0; font-size: 13px; line-height: 1.6;
+}
+.callout strong { display: block; font-size: 13px; margin-bottom: 3px; }
+.callout-tip   { background: var(--sky);     border-color: var(--steel);  color: var(--navy); }
+.callout-green { background: var(--green-lt); border-color: var(--green); color: #065F46; }
+.callout-warn  { background: var(--amber);   border-color: #C9820A;       color: var(--gold); }
+.callout-alert { background: var(--red-lt);  border-color: #EF4444;       color: var(--red-text); }
+.callout-purple{ background: var(--purple-lt); border-color: var(--purple); color: #4C1D95; }
+
+/* ── FIRST ACTION ── */
+.first-action {
+  background: #ECFDF5; border: 1.5px solid var(--green); border-radius: 8px;
+  padding: 12px 16px; margin: 0 0 16px; font-size: 13px; color: #065F46; line-height: 1.6;
+}
+.first-action strong { display: block; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; color: var(--green); }
+
+/* ── SECTION DIVIDER ── */
+.section-divider { height: 1px; background: var(--border); margin: 36px 0 0; }
+
+/* ── TIER CARDS ── */
+.tier-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 16px 0; }
+.tier-card {
+  background: white; border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 18px; display: flex; flex-direction: column; gap: 8px;
+}
+.tier-card.featured { border-color: var(--green); }
+.tier-label { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+.tier-name  { font-size: 16px; font-weight: 800; color: var(--navy); }
+.tier-price { font-size: 22px; font-weight: 800; color: var(--green); }
+.tier-price span { font-size: 12px; color: var(--muted); font-weight: 400; }
+.tier-desc { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+.tier-where { font-size: 11px; font-weight: 700; color: var(--steel); background: var(--sky); padding: 4px 8px; border-radius: 4px; display: inline-block; margin-top: 4px; }
+
+/* ── COST TABLE ── */
+.cost-box {
+  background: var(--green-lt); border: 1.5px solid #a8d8bc;
+  border-radius: 10px; padding: 16px 20px; margin: 12px 0;
+  display: flex; gap: 20px; flex-wrap: wrap; align-items: center;
+}
+.cost-item { text-align: center; }
+.cost-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--green); }
+.cost-val   { font-size: 22px; font-weight: 800; color: var(--green); }
+.cost-sub   { font-size: 11px; color: #3a8a5a; margin-top: 1px; }
+.cost-divider { width: 1px; height: 40px; background: #a8d8bc; }
+
+/* ── COPY SUGGESTION ── */
+.copy-suggestion {
+  background: var(--purple-lt); border: 1px solid #C4B5FD; border-radius: 8px;
+  padding: 14px 16px; margin: 12px 0; font-size: 13px;
+}
+.copy-label { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--purple); margin-bottom: 8px; }
+.copy-suggestion blockquote {
+  background: white; border-left: 3px solid var(--purple);
+  margin: 0; padding: 10px 14px; border-radius: 0 6px 6px 0;
+  font-size: 13px; color: var(--text); line-height: 1.6; font-style: normal;
+}
+.copy-source { font-size: 11.5px; color: var(--muted); margin-top: 8px; font-style: italic; }
+
+/* ── DECISION BOX ── */
+.decision-box {
+  background: white; border: 1.5px solid var(--border); border-radius: 10px;
+  overflow: hidden; margin: 16px 0;
+}
+.decision-header { background: var(--navy); color: white; padding: 10px 18px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.decision-option { padding: 16px 18px; border-bottom: 1px solid var(--border); }
+.decision-option:last-child { border-bottom: none; }
+.decision-option h4 { font-size: 13.5px; color: var(--navy); margin-bottom: 4px; }
+.decision-option p  { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+.option-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-bottom: 6px; }
+.tag-recommended { background: var(--green-lt); color: var(--green); }
+.tag-advanced    { background: var(--sky); color: var(--steel); }
+
+/* ── DATA TABLE ── */
+.data-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12.5px; }
+.data-table th { background: var(--subtle); text-align: left; padding: 8px 12px; font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); }
+.data-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--text); vertical-align: top; }
+.data-table tr:nth-child(even) td { background: var(--subtle); }
+
+/* ── CHECKLIST ── */
+.checklist { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 7px; margin: 12px 0; }
+.checklist li {
+  display: flex; align-items: flex-start; gap: 10px; font-size: 13px;
+  background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px;
+}
+.checklist li::before { content: "☐"; font-size: 16px; color: var(--green); flex-shrink: 0; line-height: 1; margin-top: 1px; }
+
+/* ── OVERVIEW PANEL ── */
+.overview-outer {
+  background: white; border: 1px solid var(--border);
+  border-top: 4px solid var(--green); border-radius: 0 0 10px 10px;
+  padding: 24px 28px; margin-top: 32px;
+}
+.overview-outer h2 { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.overview-outer p  { font-size: 13.5px; color: var(--muted); line-height: 1.65; margin-bottom: 14px; }
+
+/* ── UI MOCK ── */
+.ui-mock { margin: 12px 0; }
+.mock-label { font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+.mock-window { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.mock-topbar { background: #e8ecf2; padding: 8px 12px; display: flex; align-items: center; gap: 6px; }
+.mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mock-url { font-size: 11px; color: var(--muted); margin-left: 8px; background: white; border-radius: 10px; padding: 2px 10px; flex: 1; max-width: 240px; }
+.mock-body { padding: 16px 18px; }
+
+/* ── SKOOL MOCK (community preview) ── */
+.skool-community-mock {
+  background: #f9fafb; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 14px 0;
+}
+.skool-banner { background: linear-gradient(135deg, #1A6B3C 0%, #0f4a28 100%); height: 80px; display: flex; align-items: flex-end; padding: 0 16px 12px; }
+.skool-group-name { color: white; font-size: 15px; font-weight: 800; }
+.skool-tabs { background: white; border-bottom: 1px solid var(--border); display: flex; gap: 0; }
+.skool-tab { padding: 10px 16px; font-size: 12px; font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent; cursor: default; }
+.skool-tab.active { color: var(--green); border-bottom-color: var(--green); }
+.skool-body { padding: 16px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .sidebar { width: 100%; position: relative; }
+  .main { margin-left: 0; }
+  .content { padding: 0 20px 60px; }
+  .hero { padding: 24px 20px 20px; }
+  .layout { flex-direction: column; }
+  .tier-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="platform">🏫 Skool — Troy Smith</div>
+    <div class="title">Mindset Over Matter<br/>Setup Guide</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section">Overview</div>
+    <a class="nav-link" href="#overview"><span class="num">→</span>Platform &amp; Tier Map</a>
+    <a class="nav-link" href="#costs"><span class="num">$</span>Cost Breakdown</a>
+
+    <div class="nav-section">Setup</div>
+    <a class="nav-link" href="#phase1"><span class="num">1</span>Create Account &amp; Group</a>
+    <a class="nav-link" href="#phase2"><span class="num">2</span>Brand Your Group</a>
+    <a class="nav-link" href="#phase3"><span class="num">3</span>Connect Payments</a>
+
+    <div class="nav-section">Content</div>
+    <a class="nav-link" href="#phase4"><span class="num">4</span>Build the Classroom</a>
+    <a class="nav-link" href="#phase5"><span class="num">5</span>Group Coaching Events</a>
+    <a class="nav-link" href="#phase6"><span class="num">6</span>1:1 Private Coaching</a>
+
+    <div class="nav-section">Member Experience</div>
+    <a class="nav-link" href="#phase7"><span class="num">7</span>Community &amp; Welcome</a>
+    <a class="nav-link" href="#phase8"><span class="num">8</span>Landing Page Copy</a>
+
+    <div class="nav-section">Launch</div>
+    <a class="nav-link" href="#phase9"><span class="num">9</span>Test as a Member</a>
+    <a class="nav-link" href="#phase10"><span class="num">10</span>Go Live</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+<div class="hero">
+  <div class="eyebrow">Step-by-Step Setup Guide · Starting from Zero</div>
+  <h1>Setting Up Mindset Over Matter on Skool</h1>
+  <p>This guide walks through building your full Christian life coaching platform on Skool — from creating the account to your first paying member. Follow phases in order. No Skool account is assumed — this starts at the beginning.</p>
+  <div class="badges">
+    <span class="badge badge-green">Skool: ~$99/month platform fee</span>
+    <span class="badge badge-green">2.9% transaction fee on member payments</span>
+    <span class="badge badge-blue">14-day free trial available</span>
+    <span class="badge badge-warn">⚠ Verify current pricing at skool.com before purchasing</span>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ── PLATFORM OVERVIEW ── -->
+<div class="overview-outer" id="overview">
+  <h2>What Skool Is — and How Your 3 Tiers Map to It</h2>
+  <p>Skool is an all-in-one community platform for coaches and creators. One subscription gives you a community discussion feed, a course/video library, an events calendar, a member directory, and a public landing page — all in one place. Members log in, take your courses, join events, and talk to each other. You manage everything from one dashboard.</p>
+
+  <p>Skool is built around a single community with one membership price. It does not natively support multiple price tiers within one group. That changes how your 3-tier model works — and the solution is simple once you understand it.</p>
+
+  <div class="callout callout-tip">
+    <strong>How to handle your 3-tier model on Skool</strong>
+    The recommended approach: run one paid Skool community that covers your Basic and Intermediate tiers combined. Set a single monthly price that reflects the combined value. Your Advanced 1:1 coaching engagement ($150/week × 4 weeks) lives outside Skool — sold via a booking link (Calendly or Cal.com) that you post inside your community. Members who want private coaching click the link, book, and pay directly through your booking tool.
+  </div>
+
+  <!-- TIER MAP -->
+  <h3 style="font-size:15px; font-weight:700; color:var(--navy); margin:20px 0 12px;">Your Tier Structure on Skool</h3>
+  <div class="tier-grid">
+    <div class="tier-card">
+      <div class="tier-label">Tier 1 + 2 Combined</div>
+      <div class="tier-name">Skool Community</div>
+      <div class="tier-price">$50<span>/month</span></div>
+      <div class="tier-desc">Full course library access + 4 live group coaching sessions per month. Everything the Basic and Intermediate plans cover, in one membership price.</div>
+      <div class="tier-where">Handled inside Skool</div>
+    </div>
+    <div class="tier-card featured">
+      <div class="tier-label">Tier 3 — Premium</div>
+      <div class="tier-name">1:1 Private Coaching</div>
+      <div class="tier-price">$150<span>/week × 4 weeks</span></div>
+      <div class="tier-desc">Four weeks of private coaching with Troy. Booked and paid via Calendly. Members find the link inside the community. $600 total.</div>
+      <div class="tier-where">Handled via Calendly (outside Skool)</div>
+    </div>
+    <div class="tier-card">
+      <div class="tier-label">Optional</div>
+      <div class="tier-name">Free Group</div>
+      <div class="tier-price" style="font-size:16px;">Top of Funnel</div>
+      <div class="tier-desc">A separate free Skool group for discovery — free content, community sample. Converts to the paid community. Optional but effective for audience building.</div>
+      <div class="tier-where">Separate Skool group</div>
+    </div>
+  </div>
+
+  <div class="decision-box">
+    <div class="decision-header">Which Approach Is Right for You — Start Here</div>
+    <div class="decision-option">
+      <div class="option-tag tag-recommended">Recommended to Start</div>
+      <h4>Option A — One Paid Community ($50/month)</h4>
+      <p>Create one paid Skool group. Set the price at $50/month. This covers course library access and group coaching. Anyone who joins gets both. Sell 1:1 coaching via a Calendly link pinned inside the community. This is the simplest structure — one group to manage, one price to explain, one URL to share. Start here. You can always add a free group later.</p>
+    </div>
+    <div class="decision-option">
+      <div class="option-tag tag-advanced">Add Later When Ready</div>
+      <h4>Option B — Free Entry Group + Paid Community</h4>
+      <p>Create a second, separate Skool group that's free to join. Post some content there (intro videos, free devotionals, community discussion). That group has a prominent "Join the Full Community" link pointing to your paid group. This builds an audience and creates a natural upgrade path. More to manage, but highly effective for growing your list before asking for a commitment.</p>
+    </div>
+  </div>
+
+  <p style="font-size:12.5px; color:var(--muted);">This guide builds Option A — the single paid community. Phase 4 and 5 cover adding content and group sessions. At the end, notes on adding a free group later if you choose Option B.</p>
+</div>
+
+<!-- ── COST BREAKDOWN ── -->
+<div class="overview-outer" id="costs" style="margin-top:20px;">
+  <h2>Cost Breakdown — What You'll Pay and When</h2>
+  <p>Skool's cost structure is different from Wix. You pay a flat platform fee monthly, and Skool also takes a percentage of what your members pay you. Here's what to expect:</p>
+
+  <div class="cost-box">
+    <div class="cost-item">
+      <div class="cost-label">Platform Fee</div>
+      <div class="cost-val">~$99</div>
+      <div class="cost-sub">per month (verify at skool.com)</div>
+    </div>
+    <div class="cost-divider"></div>
+    <div class="cost-item">
+      <div class="cost-label">Transaction Fee</div>
+      <div class="cost-val">2.9%</div>
+      <div class="cost-sub">of each member payment</div>
+    </div>
+    <div class="cost-divider"></div>
+    <div class="cost-item">
+      <div class="cost-label">Free Trial</div>
+      <div class="cost-val">14 days</div>
+      <div class="cost-sub">no credit card needed to start</div>
+    </div>
+    <div class="cost-divider"></div>
+    <div class="cost-item">
+      <div class="cost-label">Break-Even</div>
+      <div class="cost-val">2 members</div>
+      <div class="cost-sub">at $50/mo covers platform fee</div>
+    </div>
+  </div>
+
+  <table class="data-table" style="margin-top:14px;">
+    <tr><th>Members</th><th>Monthly Revenue</th><th>Skool Fee (2.9%)</th><th>Platform Fee</th><th>You Keep</th></tr>
+    <tr><td>5</td><td>$250</td><td>$7.25</td><td>~$99</td><td>~$144</td></tr>
+    <tr><td>10</td><td>$500</td><td>$14.50</td><td>~$99</td><td>~$386</td></tr>
+    <tr><td>20</td><td>$1,000</td><td>$29</td><td>~$99</td><td>~$872</td></tr>
+    <tr><td>40</td><td>$2,000</td><td>$58</td><td>~$99</td><td>~$1,843</td></tr>
+    <tr><td>100</td><td>$5,000</td><td>$145</td><td>~$99</td><td>~$4,756</td></tr>
+  </table>
+
+  <div class="callout callout-tip">
+    <strong>Compared to what you're already paying on Wix</strong>
+    Your current Wix Business plan is ~$468/year (~$39/month) with Stripe transaction fees on top. Skool costs more at the platform level (~$99/month), but gives you community features, gamification, and a member-facing experience that Wix doesn't have. The right platform depends on whether community interaction is central to what you're building — on Skool, it is.
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 1: CREATE ACCOUNT & GROUP
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase1">
+  <div class="phase-header">
+    <div class="phase-num">1</div>
+    <div>
+      <div class="phase-title">Create Your Account &amp; Group</div>
+      <div class="phase-subtitle">~15 minutes — you'll have a live Skool group by the end of this phase</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="first-action">
+    <strong>First Action</strong>
+    Open a browser and go to skool.com. Click "Start for Free." You'll create your account and your first group in the same flow.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Go to skool.com and start your free trial</strong>
+        <p>Click <strong>Start for Free</strong>. Enter your email and create a password. You get a 14-day free trial — no credit card required to begin. Verify current trial terms on the site before signing up.</p>
+        <div class="ui-mock">
+          <div class="mock-label">skool.com — what you'll see</div>
+          <div class="mock-window">
+            <div class="mock-topbar">
+              <div class="mock-dot" style="background:#ff5f57"></div>
+              <div class="mock-dot" style="background:#febc2e"></div>
+              <div class="mock-dot" style="background:#28c840"></div>
+              <div class="mock-url">skool.com</div>
+            </div>
+            <div class="mock-body" style="text-align:center; padding:30px 20px;">
+              <div style="font-size:22px; font-weight:800; color:#1A6B3C; margin-bottom:8px;">Skool</div>
+              <div style="font-size:13px; color:#666; margin-bottom:20px;">The community platform for creators</div>
+              <div style="display:inline-block; background:#1A6B3C; color:white; padding:10px 24px; border-radius:6px; font-size:13px; font-weight:700; margin-right:10px;">Start for Free</div>
+              <div style="display:inline-block; background:#f0f0f0; color:#333; padding:10px 24px; border-radius:6px; font-size:13px; font-weight:700;">Log In</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Set up your profile</strong>
+        <p>Enter your full name: <strong>Troy Smith</strong>. Upload a profile photo — a clear, warm headshot of you. This appears as the community host/admin everywhere in Skool. Members trust a real face more than an avatar. Use the same photo you use on your Wix site.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Create your group</strong>
+        <p>After signing in, Skool will prompt you to create a group. Click <strong>Create a Group</strong>. This is your community — the space where all your content, events, and conversations live.</p>
+        <p><strong>Group name:</strong> "Mindset Over Matter" — keep it exactly as your brand. Skool will generate a URL from this (e.g., skool.com/mindset-over-matter).</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Choose: Paid or Free access</strong>
+        <p>When prompted to set access type, select <strong>Paid</strong>. You'll set the actual price in Phase 3 after connecting Stripe. For now, just confirm the group is "paid" — this gates the content from non-members and activates the checkout flow.</p>
+        <div class="callout callout-tip">
+          <strong>You can change this setting later</strong>
+          If you want to launch with a short free period or set up the group fully before taking payments, you can temporarily set it to Free and switch to Paid when ready. No content is lost when you toggle this.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Write a brief group description (you'll polish this in Phase 8)</strong>
+        <p>Skool asks for a description when you create the group. Enter a working draft now — you'll rewrite it fully in Phase 8. For now, use something like:</p>
+        <blockquote style="background:var(--subtle); border-left:3px solid var(--green); padding:10px 14px; margin:8px 0; font-size:13px; border-radius:0 6px 6px 0; color:var(--text);">Faith-based life coaching community with Troy Smith. Video lessons, live group sessions, and a community of people pursuing the life God made them for.</blockquote>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 2: BRAND YOUR GROUP
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase2">
+  <div class="phase-header">
+    <div class="phase-num">2</div>
+    <div>
+      <div class="phase-title">Brand Your Group — Logo, Banner, Colors</div>
+      <div class="phase-subtitle">~20 minutes — visual identity applied to your Skool community</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Upload your group logo / icon</strong>
+        <div class="path">Settings → Appearance → Group Image</div>
+        <p>This is the small square icon that appears next to your group name in search results, member feeds, and notifications. Square format, minimum 400×400px. Use your logo if you have one — if not, create a simple text image with your initials or the letters "MOM" on a dark background. Canva (free) makes this easy in 5 minutes.</p>
+        <div class="callout callout-warn">
+          <strong>No logo yet? Don't let this stop you.</strong>
+          A simple dark rectangle with "MINDSET OVER MATTER" in white text works as a placeholder. You can swap the logo at any time without affecting anything else on the platform.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Upload a banner/cover image</strong>
+        <div class="path">Settings → Appearance → Cover Image</div>
+        <p>This is the wide header image that appears at the top of your community page — the first visual thing visitors see. Recommended size: <strong>1500×500px</strong>.</p>
+        <p>Options for this image:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Best:</strong> A photo of you — speaking, outdoors, or in a setting that feels like your voice. Real and personal beats stock photos every time.</li>
+          <li><strong>Good:</strong> The photo of you and Carrie that's already on your Wix site — already works, already personal.</li>
+          <li><strong>Acceptable placeholder:</strong> A dark solid color or gradient with your tagline text ("I Get It. I've Been There. I Can Help.") — makes a strong first impression without a photo.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Set your brand color</strong>
+        <div class="path">Settings → Appearance → Color</div>
+        <p>Skool allows you to set one brand color that appears on buttons, active tabs, and UI accents throughout your community. Choose a color that matches your identity:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Deep navy blue</strong> (#1B3A5C) — authoritative, trustworthy, Christian platform feel</li>
+          <li><strong>Walnut / warm brown</strong> (#5C3A1E) — warm, grounded, faith-forward</li>
+          <li><strong>Forest green</strong> (#1A5C3A) — growth, life, new beginnings</li>
+        </ul>
+        <p>Whichever palette you chose for your Wix site — carry the same primary color here for consistency across both platforms.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Confirm your community URL</strong>
+        <div class="path">Settings → General → Community URL</div>
+        <p>Your Skool URL will be something like: <strong>skool.com/mindset-over-matter</strong>. If it's already been taken by someone else, try: <em>mindsetovermatter</em>, <em>mindset-over-matter-coaching</em>, or <em>troy-smith-coaching</em>. This URL is permanent once set — choose deliberately.</p>
+        <div class="callout callout-tip">
+          <strong>Custom domain on Skool</strong>
+          Skool does not support custom domains (your community will always live at skool.com/your-name, not at mindsetovermatter.net). If having your own domain is important, this is worth factoring into your platform decision.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Preview what your community looks like to visitors</strong>
+        <p>Open your community URL in a private/incognito browser window. You'll see what a non-member sees before joining — this is your storefront. Note anything that looks blank or unfinished. You'll fill those in during Phases 7 and 8.</p>
+        <div class="skool-community-mock">
+          <div class="skool-banner">
+            <div class="skool-group-name">MINDSET OVER MATTER</div>
+          </div>
+          <div class="skool-tabs">
+            <div class="skool-tab active">Community</div>
+            <div class="skool-tab">Classroom</div>
+            <div class="skool-tab">Calendar</div>
+            <div class="skool-tab">Members</div>
+            <div class="skool-tab">About</div>
+          </div>
+          <div class="skool-body">
+            <div style="font-size:12px; color:var(--muted);">← This is approximately what your community looks like after branding. Content fills in as you add it.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 3: CONNECT PAYMENTS
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase3">
+  <div class="phase-header">
+    <div class="phase-num">3</div>
+    <div>
+      <div class="phase-title">Connect Payments &amp; Set Your Price</div>
+      <div class="phase-subtitle">~15 minutes — requires a Stripe account (free to create)</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="first-action">
+    <strong>First Action</strong>
+    Go to Settings → Payments → Connect Stripe. If you already have a Stripe account from your Wix setup, use that same account — your existing bank connection carries over and you won't need to re-verify.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Connect your Stripe account</strong>
+        <div class="path">Settings → Payments → Connect Stripe</div>
+        <p>Skool uses Stripe exclusively for all member payments. If you don't have a Stripe account yet, click "Create a Stripe account" in the connection flow — it takes about 5 minutes and requires your bank routing and account numbers.</p>
+        <div class="callout callout-tip">
+          <strong>Already have Stripe from Wix?</strong>
+          Use the same Stripe account. This is ideal — your payouts all go to one bank account, your Stripe dashboard shows all revenue in one place, and you won't need to re-verify your identity.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Set your membership price</strong>
+        <div class="path">Settings → Payments → Membership Price</div>
+        <p>Set your monthly price. Based on your 3-tier model combined into one Skool community:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>$50/month</strong> — matches your current Intermediate plan; gives access to both course library and group coaching</li>
+          <li><strong>$67/month</strong> — stronger positioning for a faith-coaching community with live sessions; better margin</li>
+          <li><strong>$30/month</strong> — lower barrier to entry; consider if building audience is the priority over revenue per member</li>
+        </ul>
+        <div class="callout callout-tip">
+          <strong>Recommendation</strong>
+          Launch at $50/month. It's honest relative to what Intermediate was already priced at, it's psychologically accessible, and it positions the $150/week private coaching as a clear premium step up. You can raise the price later — Skool will grandfather existing members at their original rate.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Consider a free trial period for launch</strong>
+        <p>Skool lets you offer a free trial (1, 7, or 14 days) before the first charge. For a new platform with an existing audience (people who already know you from Facebook, church, or referral), a 7-day free trial lowers the barrier to a first "yes" and lets them experience the community before they're charged. Optional — but recommended for launch week.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Understand what Skool does automatically</strong>
+        <p>Once Stripe is connected and your price is set, Skool handles:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li>Monthly recurring billing (charges members on their join date each month)</li>
+          <li>Failed payment retries and member notifications</li>
+          <li>Automatic cancellation when a member stops paying</li>
+          <li>Stripe receipt emails to members after each charge</li>
+        </ul>
+        <p>You do not need to manually manage subscriptions. Skool and Stripe handle the billing loop entirely.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 4: BUILD THE CLASSROOM
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase4">
+  <div class="phase-header">
+    <div class="phase-num">4</div>
+    <div>
+      <div class="phase-title">Build the Classroom — Your Video Library</div>
+      <div class="phase-subtitle">~2–3 hours — you need at least 1–2 videos recorded before launch</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="first-action">
+    <strong>First Action</strong>
+    Click the <strong>Classroom</strong> tab inside your community → click <strong>+ New Course</strong>. Create your first course: name it "Getting Started" or "Welcome to Mindset Over Matter." This is where members land first.
+  </div>
+
+  <div class="callout callout-tip">
+    <strong>You do not need a full library to launch</strong>
+    One module with 1–2 videos is enough to open. The library grows after launch. Waiting until you have 20 videos means waiting 5+ months to make money. Build the structure now, publish what you have, add more regularly.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Understand how Skool Classroom is structured</strong>
+        <p>Skool's Classroom uses a two-level structure:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Courses</strong> — top-level containers, like folders. Example: "Foundations," "Identity &amp; Purpose," "Group Session Replays."</li>
+          <li><strong>Lessons</strong> — individual items inside a course. Each lesson can contain video, text, images, attachments, or a combination.</li>
+        </ul>
+        <p>Members see courses in the Classroom tab. They click a course, then click lessons in order. Progress is tracked automatically.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Create your recommended course structure</strong>
+        <p>Based on your coaching content and Troy's 8-topic video plan, here's a recommended starting structure:</p>
+        <table class="data-table">
+          <tr><th>Course Name</th><th>What Goes Here</th><th>Priority</th></tr>
+          <tr><td>Welcome &amp; Start Here</td><td>Welcome video from Troy, what to do first, how to use the community</td><td>Launch — required</td></tr>
+          <tr><td>Foundations — Who You Are in Christ</td><td>Identity, purpose, your "why" — cornerstone teaching</td><td>Launch — 1–2 lessons</td></tr>
+          <tr><td>Mindset &amp; Clarity</td><td>Breaking through cloudiness, decision frameworks, "unstuck" content</td><td>First month</td></tr>
+          <tr><td>Faith in the Hard Seasons</td><td>When life throws curveballs — resilience, trust, God's faithfulness</td><td>First month</td></tr>
+          <tr><td>Purpose-Driven Living</td><td>Finding your calling, aligning work and faith, next steps</td><td>Month 2</td></tr>
+          <tr><td>Community &amp; Accountability</td><td>Walking with others, not alone — peer content</td><td>Month 2+</td></tr>
+          <tr><td>Group Session Replays</td><td>Recordings of past group coaching sessions (after they happen)</td><td>After first session</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Add video to a lesson — two options</strong>
+        <p>Inside any lesson, click the video icon to add video. Skool supports two approaches:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Direct upload</strong> — Upload MP4 directly to Skool. Skool hosts and streams it. Best for private content. File size limits apply — check Skool's current limits.</li>
+          <li><strong>YouTube Unlisted embed</strong> — Upload the video to YouTube as "Unlisted" (not public, not searchable), then paste the link into the lesson. The video plays inside Skool but is hosted on YouTube's servers. Best for large video files or if you're already using YouTube.</li>
+        </ul>
+        <div class="callout callout-tip">
+          <strong>YouTube Unlisted is the recommended approach</strong>
+          No file size limits, faster upload, YouTube's reliable playback. "Unlisted" means the video won't appear in search or your YouTube channel — only people with the direct link (or who are inside your Skool lesson) can view it.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Record and upload your Welcome Video first</strong>
+        <p>Your very first lesson should be a personal welcome video from Troy — 2 to 5 minutes, shot on your phone or computer camera. This is the most important video in the library. New members watch it the moment they join.</p>
+        <p>What to include:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li>Who you are and why you coach ("I've been there — the cloudiness, the lost feeling, the wondering")</li>
+          <li>What this community is about</li>
+          <li>What to do first (start with the Foundations course, join a group session, introduce yourself in the Community tab)</li>
+          <li>Your heart for the people here — this is the moment that converts a new member into a committed one</li>
+        </ul>
+        <div class="copy-suggestion">
+          <div class="copy-label">Welcome Video — Opening Lines (suggested draft)</div>
+          <blockquote>
+            Hey — I'm Troy. And if you're watching this, you made it. Welcome to the community.<br/><br/>
+            I want you to know something before we do anything else: you are here for a reason. Whether the path felt clear to you when you signed up, or whether you just knew something had to change — you were right to show up.<br/><br/>
+            I've been where you are. Stuck. Clear on what I didn't want, foggy on what came next. And I found my way through — not alone, and not by accident. That's what this place is for.<br/><br/>
+            Here's what I want you to do next: head to the Foundations course, watch the first lesson, and then introduce yourself in the Community tab. Tell us your name, where you're at, and what brought you here. We want to know. I want to know.<br/><br/>
+            I'm glad you're here.
+          </blockquote>
+          <div class="copy-source">Draft — adapt in your own voice. The key beats: acknowledgment, personal connection, your own journey, clear "what to do next," genuine welcome.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Add a text description to each lesson</strong>
+        <p>Below the video on each lesson, Skool has a text area. Use it for:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li>A 2–3 sentence summary of what the video covers</li>
+          <li>A single reflection question at the end ("What comes up for you when you think about...?")</li>
+          <li>A scripture reference if relevant to the content</li>
+          <li>A prompt to share in the Community tab ("Reply below or post in the Community about...")</li>
+        </ul>
+        <p>Even one reflection question per lesson makes the content 3x more engaging. Members who answer questions are far less likely to cancel.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <strong>Set completion requirements (optional)</strong>
+        <p>Skool can mark a lesson "complete" when a member finishes watching it, or you can require a comment/response before they advance. Requiring a response is a strong engagement tool — it's harder to mindlessly click through. Consider using this on your Foundations course, where depth matters.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <strong>Drag-and-drop to reorder</strong>
+        <p>Hover over any course or lesson — a drag handle (⠿) appears on the left. Drag to reorder. Put "Welcome &amp; Start Here" first, always. Members who skip the welcome experience have higher churn.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 5: GROUP COACHING EVENTS
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase5">
+  <div class="phase-header">
+    <div class="phase-num">5</div>
+    <div>
+      <div class="phase-title">Schedule Group Coaching Sessions</div>
+      <div class="phase-subtitle">~15 minutes — have your Google Meet link ready</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="callout callout-green">
+    <strong>Google Meet is free and has no time limits for groups up to 100 people</strong>
+    Go to meet.google.com → click "New Meeting" → "Get a meeting link to share." Copy that link. Use this same link for every group session — it doesn't expire. Zoom's free tier cuts off at 40 minutes for group calls, which will interrupt your sessions.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Open the Calendar tab in your community</strong>
+        <p>In your Skool community dashboard, click the <strong>Calendar</strong> tab. This is where all your scheduled events live. Members see events here and can add them to their own calendars.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Create your first group coaching event</strong>
+        <p>Click <strong>+ New Event</strong> (or "Add Event"). Fill in:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Name:</strong> "Live Group Coaching — [Month] Week 1" or give each session a topic ("Clarity Session," "Faith &amp; Purpose Call")</li>
+          <li><strong>Date &amp; Time:</strong> Pick a day and time that works for your schedule — then commit to it. Consistency matters more than the specific time. Example: every Tuesday at 7pm CT.</li>
+          <li><strong>Duration:</strong> 60–90 minutes</li>
+          <li><strong>Description:</strong> A brief note about the session focus, plus your Google Meet link</li>
+          <li><strong>Location / Video Call Link:</strong> Paste your permanent Google Meet link</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Schedule all 4 sessions for your first month at once</strong>
+        <p>Repeat step 2 four times — one for each group session. Posting the full month's calendar at once lets members plan ahead and shows that this is a structured, professional program. Skool notifies all members of each new event automatically.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>After each session: upload the replay to the Classroom</strong>
+        <p>Record the session via Google Meet (click the three-dot menu → "Record meeting"). After the call, Google sends the recording to your Google Drive. Download it, upload to YouTube Unlisted, and add it as a lesson in the "Group Session Replays" course. Members who missed the live call can catch up. This also makes your content library grow automatically every month.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 6: 1:1 PRIVATE COACHING
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase6">
+  <div class="phase-header">
+    <div class="phase-num">6</div>
+    <div>
+      <div class="phase-title">Set Up 1:1 Private Coaching — Booking &amp; Payment</div>
+      <div class="phase-subtitle">~30 minutes — uses Calendly (free plan works) + Stripe</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="callout callout-tip">
+    <strong>Why Calendly instead of Skool for this</strong>
+    Skool doesn't support tiered pricing within a single community — you can't charge some members more inside Skool. Calendly lets you create a bookable event type with payment collection built in. Members inside your Skool community click a link to your Calendly, book, and pay there. Clean, simple, and professional.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Create a Calendly account</strong>
+        <p>Go to <strong>calendly.com</strong> → Sign up with your Google account. The free plan is sufficient to start. If you want payment collection inside Calendly (so clients pay when they book), you'll need Calendly Standard (~$10/month). Alternatively, you can collect payment via a Stripe payment link and send it manually after booking — either approach works.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Create a "4-Week Private Coaching" event type</strong>
+        <p>Inside Calendly, click <strong>+ New Event Type</strong>. Configure it:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Name:</strong> "4-Week Private Coaching with Troy"</li>
+          <li><strong>Duration:</strong> 60 minutes (per session)</li>
+          <li><strong>Location:</strong> Google Meet (Calendly auto-generates a Meet link for each booking)</li>
+          <li><strong>Description:</strong> "Four weeks of dedicated 1:1 coaching with Troy Smith — one 60-minute private session per week. $150/week · $600 total."</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Set your available time slots</strong>
+        <p>In Calendly, connect your Google Calendar so it checks for conflicts automatically. Set the days and hours you're available for private sessions. Block off times for group calls, family, and your own prep. You control exactly when clients can book.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Handle payment for the 4-week engagement</strong>
+        <p>You have two options for collecting the $150/week payment:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Option A — Calendly + Stripe (cleanest):</strong> On Calendly Standard (~$10/mo), connect Stripe and add a $150 charge to the booking. Client pays when they book each session. You invoice weekly.</li>
+          <li><strong>Option B — Stripe Payment Link (free):</strong> Create a Payment Link at dashboard.stripe.com for $150 labeled "Private Coaching Session." After a client books via Calendly, send them the Stripe link by email to complete payment. More manual but no monthly cost.</li>
+          <li><strong>Option C — Manual invoice:</strong> Book via Calendly free, invoice via email, collect payment via Venmo/Zelle/PayPal. Simplest but no automatic receipts.</li>
+        </ul>
+        <div class="callout callout-tip">
+          <strong>Recommendation</strong>
+          Use Option B (Stripe Payment Link) to start — zero additional monthly cost, professional receipts, and you stay in your existing Stripe account. If volume increases, upgrade to Calendly Standard for Option A.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Post your Calendly link inside your Skool community</strong>
+        <p>Once your booking link is ready, add it to two places inside Skool:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Pinned Community post</strong> — Write a post explaining 1:1 coaching and pin it to the top of the Community tab</li>
+          <li><strong>About section</strong> — Add a brief mention and link in your group's About/description page</li>
+        </ul>
+        <div class="copy-suggestion">
+          <div class="copy-label">Pinned Post — 1:1 Coaching Announcement (suggested copy)</div>
+          <blockquote>
+            <strong>Private 1:1 Coaching — For When You're Ready to Go Deeper</strong><br/><br/>
+            If you're at a point where you want focused, one-on-one time — just you and me working through what's in front of you — private coaching is available.<br/><br/>
+            Four weeks. One session per week. All private, all personalized to you. $150/week ($600 for the full engagement).<br/><br/>
+            This isn't a package I offer to everyone — I take on a limited number of private clients at a time so I can give each person real attention.<br/><br/>
+            If you're interested, book a time here: [YOUR CALENDLY LINK]<br/><br/>
+            — Troy
+          </blockquote>
+          <div class="copy-source">Pin this post to the top of your Community feed. Update the booking link before posting.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 7: COMMUNITY SETUP & WELCOME
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase7">
+  <div class="phase-header">
+    <div class="phase-num">7</div>
+    <div>
+      <div class="phase-title">Set Up the Community Tab &amp; Write Your Welcome Post</div>
+      <div class="phase-subtitle">~30 minutes — this shapes what members do the moment they join</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Set up onboarding questions</strong>
+        <div class="path">Settings → Onboarding</div>
+        <p>These are 2–3 questions that appear when a new member joins — before they see the community. Their answers help you understand who your members are and what they need most. Skool collects these responses and shows them in the member's profile.</p>
+        <p>Recommended questions for Troy's community:</p>
+        <ol style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li>"What brought you here — what's going on in your life right now?" <em>(open text)</em></li>
+          <li>"What would feel like a real win for you in the next 90 days?" <em>(open text)</em></li>
+          <li>"How did you hear about this community?" <em>(multiple choice: Facebook / Friend / Troy directly / Other)</em></li>
+        </ol>
+        <p>Read these responses. They're gold — they tell you what people need, in their own words. Use this language in your posts, your videos, and your coaching.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Write and pin a welcome post</strong>
+        <p>Go to the <strong>Community</strong> tab and write your first post. This is pinned to the top so every new member sees it first. After publishing, click the three dots (⋯) → <strong>Pin to top</strong>.</p>
+        <div class="copy-suggestion">
+          <div class="copy-label">Welcome Post — Suggested Draft</div>
+          <blockquote>
+            <strong>Welcome to Mindset Over Matter. I'm glad you're here.</strong><br/><br/>
+            My name is Troy. I coach because I've been where most of you are — stuck, searching, feeling like the path got cloudy somewhere along the way. I found my way through. Not alone. Not by accident. And I believe you will too.<br/><br/>
+            This is a community for people who are serious about getting unstuck — with faith as the foundation, not an afterthought.<br/><br/>
+            <strong>Here's what to do first:</strong><br/>
+            1. Head to the Classroom tab → open "Welcome &amp; Start Here" → watch the intro video (it's short — 3 minutes).<br/>
+            2. Come back here and introduce yourself. Tell us your name, where you're from, and one thing that brought you to this community.<br/>
+            3. Check the Calendar tab for our next live group coaching session and add it to your calendar now.<br/><br/>
+            That's it. Start there. I'll see you in the comments and on the calls.<br/><br/>
+            — Troy
+          </blockquote>
+          <div class="copy-source">This is a draft — write it in your voice. The key structure: who you are, what this place is for, exactly what to do first (numbered steps). Numbered steps dramatically increase the chance that new members actually do something right away.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Set up post categories</strong>
+        <p>Skool lets you create categories that members can use when posting — this keeps the Community feed organized as it grows. Suggested categories for your community:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Introductions</strong> — where new members introduce themselves</li>
+          <li><strong>Questions &amp; Prayer</strong> — open requests and community support</li>
+          <li><strong>Wins &amp; Breakthroughs</strong> — celebrating progress</li>
+          <li><strong>Session Discussions</strong> — conversation from group calls</li>
+          <li><strong>Resources</strong> — members sharing what's helped them</li>
+        </ul>
+        <p>To add categories: <span class="path">Settings → Community → Categories</span>. Pin the "Introductions" category prominently.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Configure the Leaderboard (Skool's gamification)</strong>
+        <p>Skool has a built-in Leaderboard where members earn points for posting, commenting, and liking. It shows who is most active. For a coaching community, this can be positive (encouraging engagement) or neutral (people don't care about points). You don't have to do anything to enable it — it's on by default.</p>
+        <p>One thing worth doing: <span class="path">Settings → Leaderboard</span> — check that the point values for different actions make sense. Posting a comment is worth more engagement than just liking a post — make sure the points reflect that.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Write your About section</strong>
+        <div class="path">Community tab → About section (pinned on the right sidebar or accessible from Settings)</div>
+        <p>This is a short section that gives context about the community. Keep it tight:</p>
+        <div class="copy-suggestion">
+          <div class="copy-label">About Section — Suggested Copy</div>
+          <blockquote>
+            <strong>Mindset Over Matter — Christian Life Coaching with Troy Smith</strong><br/><br/>
+            This community is for people who know something needs to change — and who want to do the work, with faith as the foundation.<br/><br/>
+            Inside you'll find:<br/>
+            → Video lessons and teaching from Troy on mindset, purpose, and living what you believe<br/>
+            → Live monthly group coaching sessions<br/>
+            → A community of people on the same road — real, honest, and moving forward<br/>
+            → Private 1:1 coaching available for members who want to go deeper<br/><br/>
+            You are NEEDED. You are LOVED. And this is not the end of your story.
+          </blockquote>
+          <div class="copy-source">Original — pulls directly from Troy's voice and tagline. Adjust as needed, but keep "You are NEEDED. You are LOVED." — it's the core of his message.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 8: LANDING PAGE
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase8">
+  <div class="phase-header">
+    <div class="phase-num">8</div>
+    <div>
+      <div class="phase-title">Write Your Landing Page — What Non-Members See</div>
+      <div class="phase-subtitle">~30 minutes — this is your sales page; it converts visitors into members</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="callout callout-tip">
+    <strong>What Skool's landing page is</strong>
+    When someone visits your Skool community URL who is not a member, they see a landing page — a preview with your banner, description, and a "Join" button. This is the only page they see before they decide to pay. You control the headline, the description, bullet points, and optionally a video. This is your conversion page.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Go to Landing Page settings</strong>
+        <div class="path">Settings → Landing Page</div>
+        <p>This is where you edit every element a non-member sees. Work through each field below.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Write your landing page headline</strong>
+        <p>This is the first sentence a visitor reads — it either stops them or loses them. It should speak directly to their situation, not describe your program.</p>
+        <div class="copy-suggestion">
+          <div class="copy-label">Original (Wix site copy)</div>
+          <blockquote>"I Get It! Life throws plenty of curve balls. Most of the time, we know the answers... Sometimes though, the path becomes a little cloudy, and we lose our way."</blockquote>
+          <div class="copy-source">This is Troy's actual voice — powerful, but written for a homepage, not a landing page headline. For the headline, tighten it.</div>
+        </div>
+        <div class="copy-suggestion">
+          <div class="copy-label">Recommended — Landing Page Headline Options</div>
+          <blockquote>
+            Option 1: "Coaching for the Person Who Knows Something Has to Change"<br/><br/>
+            Option 2: "I've Been There. And I Found a Way Through. Let Me Show You."<br/><br/>
+            Option 3: "Faith-Based Life Coaching for People Who Are Done Being Stuck"<br/><br/>
+            Option 4: "Mindset. Purpose. Faith. One Community Where All Three Come Together."
+          </blockquote>
+          <div class="copy-source">Pick one. Option 2 is the most personally grounded — it uses Troy's story as the hook. Option 3 is the most direct about the transformation. All four could work; the right choice depends on which feels most like how Troy would say it out loud.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Write the description / "What you get" section</strong>
+        <p>After the headline, list what members receive. Be specific — not "community support" but "a community of believers who will call you forward, not just cheer you on."</p>
+        <div class="copy-suggestion">
+          <div class="copy-label">Recommended — Benefits Bullet Points</div>
+          <blockquote>
+            ✓ Access to Troy's complete video lesson library — teaching on mindset, purpose, faith, and the hard seasons of life. New content added every month.<br/><br/>
+            ✓ Four live group coaching sessions with Troy each month — real conversations with real people, not pre-recorded filler.<br/><br/>
+            ✓ A community of Christians doing the work — people you can be honest with about where you actually are.<br/><br/>
+            ✓ Session replays in the library so you never miss a call, even if life happens.<br/><br/>
+            ✓ Direct access to Troy inside the community — questions answered, progress witnessed.<br/><br/>
+            ✓ Private 1:1 coaching available for members who are ready to go deeper.
+          </blockquote>
+          <div class="copy-source">These bullets are the substance of your offer. Keep them concrete — what the person gets, not what the program "provides."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Add an intro video to the landing page (strongly recommended)</strong>
+        <p>Even 90 seconds of you, on camera, talking directly to the kind of person who would join your community — dramatically increases conversions. People join people, not platforms. A phone propped on books in decent light is completely sufficient.</p>
+        <p>What to say in 60–90 seconds:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li>Who you are (name, brief background — the "I've been there" part of your story)</li>
+          <li>Who this community is for (the specific person you're talking to)</li>
+          <li>What they'll find inside</li>
+          <li>Why you built it</li>
+          <li>What to do: "Click Join and I'll see you in there."</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Set the membership price display</strong>
+        <p>Skool shows your membership price prominently on the landing page ("$50/month"). Make sure the price and any free trial offer (if applicable) display correctly. Preview the landing page in an incognito window to see exactly what a prospective member sees before joining.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 9: TEST AS A MEMBER
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase9">
+  <div class="phase-header">
+    <div class="phase-num">9</div>
+    <div>
+      <div class="phase-title">Test Everything as a Member — Before Anyone Else Does</div>
+      <div class="phase-subtitle">~30 minutes — do this before you share your link publicly</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="first-action">
+    <strong>First Action</strong>
+    Open an incognito browser window. Navigate to your Skool community URL. You should see your landing page exactly as a new visitor would. Start from there and complete every step a member would take.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Create a test member account using a second email address</strong>
+        <p>Use a different email than your Skool admin account — a Gmail you own, a +alias, or a test address. This gives you a true member perspective, separate from your admin view.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Go through the full join flow</strong>
+        <p>From the landing page, click <strong>Join</strong>. Complete the checkout with a real card (you can use Stripe's test mode in Stripe's dashboard to avoid actual charges — or use a real card and refund it afterward).</p>
+        <p>Verify:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li>Landing page reads as expected — headline, description, price</li>
+          <li>Checkout flow completes without errors</li>
+          <li>Onboarding questions appear after joining</li>
+          <li>You land in the Community feed as a member</li>
+          <li>The Welcome post is pinned and visible</li>
+          <li>Classroom tab shows your courses</li>
+          <li>First video plays correctly</li>
+          <li>Calendar tab shows your group sessions</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Test the 1:1 coaching booking flow</strong>
+        <p>As the test member, find your Calendly link (in the pinned post or About section). Click it. Walk through the Calendly booking experience as a client would. Make sure the session type, description, and payment info (or instructions) are all clear. You don't have to complete a real booking — just confirm it works.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Post something in the Community feed as the test member</strong>
+        <p>Write a fake introduction post. Verify that posts show up correctly, that categories work, and that you can reply to comments. Then switch back to your admin account and reply to your own test post — confirm the back-and-forth works.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Check the welcome email</strong>
+        <p>Look at the test email address's inbox. Skool sends a welcome email when someone joins — confirm it arrived, the content looks right, and the link back to the community works.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <strong>Refund the test charge (if you used a real card)</strong>
+        <p>Go to <span class="path">dashboard.stripe.com → Payments → find the charge → Refund</span>. This is immediate and free. The member account will remain in your Skool community — you can manually remove it afterward.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 10: GO LIVE
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase10">
+  <div class="phase-header">
+    <div class="phase-num">10</div>
+    <div>
+      <div class="phase-title">Go Live — Launch &amp; Get Your First Members</div>
+      <div class="phase-subtitle">The part you've been working toward</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="callout callout-green">
+    <strong>Pre-launch checklist — verify every item before sharing your link</strong>
+  </div>
+
+  <ul class="checklist">
+    <li>Group is set to Paid and Stripe is connected</li>
+    <li>Logo and banner image uploaded</li>
+    <li>Community URL confirmed (skool.com/your-name)</li>
+    <li>Landing page headline, description, and price display correctly</li>
+    <li>At least 1 course with 1–2 lessons in the Classroom</li>
+    <li>Welcome video recorded and live in Classroom</li>
+    <li>At least 1 group coaching event scheduled in Calendar</li>
+    <li>Calendly booking link for 1:1 coaching is live and working</li>
+    <li>Welcome post pinned in Community feed</li>
+    <li>Onboarding questions configured</li>
+    <li>Full member test completed (Phase 9)</li>
+  </ul>
+
+  <div class="steps" style="margin-top:20px;">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Share your Skool link with 5–10 people who know you first</strong>
+        <p>Before going public, send your link to people who already believe in you — family, people from church, friends who've heard you talk about coaching. Ask for 10 minutes of their time to look at it and give honest feedback. Your first members often don't come from strangers.</p>
+        <p>A text or DM that works: "Hey — I finally got this thing live. It's a coaching community I've been building. Would you be willing to take a look and give me honest feedback? Here's the link: [URL]"</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Write your launch post on Facebook</strong>
+        <p>Post about it on your personal Facebook — your actual story, not a sales pitch. The people who already know you are your warmest audience and are most likely to become your first members and refer others.</p>
+        <div class="copy-suggestion">
+          <div class="copy-label">Facebook Launch Post — Suggested Draft</div>
+          <blockquote>
+            I've been working toward this for a while, and it's finally real.<br/><br/>
+            I built a coaching community — Mindset Over Matter — for people who know something has to change but aren't sure what comes next. People who are stuck, searching, or just know deep down there's more.<br/><br/>
+            It's faith-based. It's personal. And it's built from what I've actually walked through — not what sounds good in a brochure.<br/><br/>
+            Inside: video lessons, live group coaching calls every month, and a community of people doing the work together. If you want private 1:1 time with me, that's available too.<br/><br/>
+            I'd be honored if you'd check it out: [YOUR SKOOL LINK]<br/><br/>
+            And if this isn't for you but you know someone who needs it — share it. You might not know how much that one share matters.
+          </blockquote>
+          <div class="copy-source">Adapt in Troy's voice. The key: story first, offer second. Don't lead with features — lead with who it's for and why you built it.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Update your social media bios with the link</strong>
+        <p>Add your Skool community link to your bio/about section on Facebook and any other platforms you use. This is passive, permanent, and costs nothing. People who visit your profile out of curiosity now have a clear place to go.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Be present in your own community from day one</strong>
+        <p>Reply to every introduction post. Comment on what members share. Show up to group sessions. The first 30 days of a new community set the culture — if the host is engaged, members engage. If the host disappears, so do members. You don't have to post constantly, but you do need to be visibly present.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Add one new piece of content each week</strong>
+        <p>One video, or one podcast episode, or one thoughtful Community post — every week. Consistency over volume. Members who see regular content additions stay subscribed. Members who see nothing cancel. Pick a day of the week and make it your content day. Every week. That's the whole content strategy.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout callout-tip" style="margin-top:24px;">
+    <strong>If you ever migrate from Wix to Skool</strong>
+    Your existing Wix content (About Me copy, pricing plan descriptions, email templates) all carries over — just re-paste into Skool's equivalent fields. Members who paid on Wix would need to resubscribe on Skool; Skool cannot import Wix subscriptions automatically. For a small launch audience, this can be handled by personal outreach ("I moved platforms — your first month on Skool is on me"). For larger audiences, a migration window and discount code is the standard approach.
+  </div>
+
+</div>
+
+</div><!-- /content -->
+
+<!-- ── FOOTER ── -->
+<div style="background:var(--navy); color:white; padding:30px 40px; margin-top:40px;">
+  <div style="font-size:10px; font-weight:800; letter-spacing:2px; text-transform:uppercase; opacity:.5; margin-bottom:10px;">Summary — In Order</div>
+  <ol style="font-size:13px; line-height:2.5; padding-left:20px; opacity:.9;">
+    <li><strong>Create Skool account and group</strong> — sign up at skool.com, name it Mindset Over Matter</li>
+    <li><strong>Brand the group</strong> — logo, banner, color, URL</li>
+    <li><strong>Connect Stripe and set price</strong> — $50/month, free trial optional</li>
+    <li><strong>Build Classroom</strong> — Welcome course + Foundations course; 1–2 videos minimum</li>
+    <li><strong>Schedule group coaching events</strong> — first month's 4 sessions in Calendar</li>
+    <li><strong>Set up Calendly</strong> for 1:1 private coaching; post link in community</li>
+    <li><strong>Write Welcome post and About section</strong>; pin; add categories; set onboarding questions</li>
+    <li><strong>Write landing page</strong> — headline, bullets, intro video</li>
+    <li><strong>Test everything as a member</strong> — join, watch, post, verify</li>
+    <li><strong>Launch</strong> — personal network first, then Facebook, then social bios</li>
+  </ol>
+</div>
+
+</main>
+</div><!-- /layout -->
+
+<script>
+const links = document.querySelectorAll('.nav-link[href^="#"]');
+const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+function updateNav() {
+  let current = sections[0];
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 60) current = s; });
+  links.forEach(l => {
+    l.style.color = '';
+    l.style.borderLeftColor = 'transparent';
+    l.style.background = '';
+  });
+  const active = document.querySelector('.nav-link[href="#' + current.id + '"]');
+  if (active) {
+    active.style.color = 'white';
+    active.style.borderLeftColor = '#2E9E5E';
+    active.style.background = 'rgba(255,255,255,0.07)';
+  }
+}
+window.addEventListener('scroll', updateNav, { passive: true });
+updateNav();
+</script>
+</body>
+</html>

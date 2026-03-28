@@ -1,0 +1,2591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Wix Build Guide — Mindset Over Matter (Troy's Site)</title>
+<style>
+:root {
+  --navy:     #1B3A5C;
+  --steel:    #2563A8;
+  --sky:      #EBF4FD;
+  --blue-lt:  #DBEAFE;
+  --green:    #1A6B3C;
+  --green-lt: #E8F6EE;
+  --gold:     #92620A;
+  --amber:    #FFF8E8;
+  --red-lt:   #FEF2F2;
+  --red-text: #991B1B;
+  --border:   #dde5f0;
+  --bg:       #F4F7FB;
+  --white:    #ffffff;
+  --text:     #1a2433;
+  --muted:    #5a6a82;
+  --subtle:   #f7f9fc;
+  --sidebar-w:230px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.layout { display: flex; min-height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--navy);
+  color: white;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  padding: 0 0 40px;
+  z-index: 100;
+}
+.sidebar-brand {
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 8px;
+}
+.sidebar-brand .platform { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; opacity: .5; margin-bottom: 4px; }
+.sidebar-brand .title { font-size: 13px; font-weight: 700; line-height: 1.35; }
+.sidebar-brand .site-name { font-size: 11px; font-weight: 600; opacity: .7; margin-top: 4px; color: #90c4f8; }
+.sidebar-nav { padding: 4px 0; }
+.nav-phase {
+  padding: 8px 16px 4px;
+  font-size: 9px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: rgba(255,255,255,0.35);
+  margin-top: 8px;
+}
+.nav-link {
+  display: flex; align-items: center; padding: 7px 16px; font-size: 12px;
+  color: rgba(255,255,255,0.7); text-decoration: none;
+  border-left: 3px solid transparent; transition: all .15s; line-height: 1.3;
+  gap: 6px;
+}
+.nav-link:hover, .nav-link.active {
+  background: rgba(255,255,255,0.08); color: white; border-left-color: var(--steel);
+}
+.nav-link .num {
+  display: inline-block; width: 18px; height: 18px;
+  background: rgba(255,255,255,0.12); border-radius: 50%;
+  font-size: 10px; font-weight: 700; text-align: center;
+  line-height: 18px; flex-shrink: 0;
+}
+.nav-link .status-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-left: auto;
+}
+.dot-done   { background: #4ade80; }
+.dot-partial { background: #fbbf24; }
+.dot-todo   { background: rgba(255,255,255,0.2); }
+
+/* ── MAIN ── */
+.main { margin-left: var(--sidebar-w); flex: 1; padding: 0 0 60px; }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--steel) 100%);
+  padding: 36px 40px 30px; color: white;
+}
+.hero .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; opacity: .65; margin-bottom: 8px; }
+.hero h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; line-height: 1.25; }
+.hero p { font-size: 13.5px; opacity: .85; line-height: 1.6; max-width: 600px; }
+.hero .badges { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.badge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+.badge-blue { background: rgba(255,255,255,0.2); color: white; }
+.badge-warn { background: rgba(255,220,100,0.25); color: #ffe066; }
+.badge-green { background: rgba(74,222,128,0.2); color: #bbf7d0; }
+
+/* ── STARTING POINT BANNER ── */
+.starting-point {
+  background: white;
+  border: 2px solid var(--steel);
+  border-radius: 12px;
+  margin: 28px 40px 0;
+  overflow: hidden;
+}
+.starting-point-header {
+  background: var(--steel);
+  color: white;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.starting-point-body {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.sp-col { }
+.sp-col h4 {
+  font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 10px;
+}
+.sp-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: 13px; line-height: 1.5; margin-bottom: 7px;
+}
+.sp-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+/* ── ALERT BANNER ── */
+.alert-banner {
+  background: var(--red-lt);
+  border: 2px solid #EF4444;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 16px 40px 0;
+  font-size: 13px;
+  color: var(--red-text);
+  line-height: 1.6;
+}
+.alert-banner strong { display: block; font-size: 14px; margin-bottom: 6px; }
+
+/* ── CONTENT ── */
+.content { padding: 0 40px; }
+
+/* ── PHASES ── */
+.phase-block { margin-top: 40px; scroll-margin-top: 20px; }
+.phase-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 2px solid var(--sky);
+}
+.phase-num {
+  width: 36px; height: 36px; background: var(--steel); color: white;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; flex-shrink: 0;
+}
+.phase-title { font-size: 18px; font-weight: 700; color: var(--navy); }
+.phase-subtitle { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.phase-status-badge {
+  margin-left: auto; padding: 4px 12px; border-radius: 20px;
+  font-size: 11px; font-weight: 700; white-space: nowrap;
+}
+.psb-done     { background: var(--green-lt); color: var(--green); }
+.psb-partial  { background: var(--amber); color: #7B5200; }
+.psb-todo     { background: var(--sky); color: var(--steel); }
+.psb-action   { background: var(--red-lt); color: var(--red-text); }
+
+/* ── PHASE STATUS BOX ── */
+.phase-status-box {
+  background: var(--subtle);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+.psb-section h5 {
+  font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 7px;
+}
+.psb-section p, .psb-section li {
+  font-size: 12.5px; color: var(--text); line-height: 1.5;
+}
+.psb-section ul { list-style: none; padding: 0; }
+.psb-section ul li { margin-bottom: 4px; }
+.psb-section ul li.done::before { content: "✅ "; }
+.psb-section ul li.warn::before { content: "⚠️ "; }
+.psb-section ul li.todo::before { content: "☐ "; }
+.first-action {
+  background: var(--navy);
+  color: white;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.first-action strong { display: block; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; opacity: .6; margin-bottom: 5px; }
+
+/* ── STEPS ── */
+.steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.step {
+  display: flex; gap: 14px; background: white;
+  border-radius: 10px; border: 1px solid var(--border);
+  padding: 14px 16px; align-items: flex-start;
+}
+.step-num {
+  width: 26px; height: 26px; background: var(--sky); color: var(--steel);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; flex-shrink: 0; margin-top: 1px;
+}
+.step-body { flex: 1; }
+.step-body strong { display: block; font-size: 13.5px; color: var(--navy); margin-bottom: 3px; }
+.step-body p { font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.55; }
+.path {
+  display: inline-block; background: var(--subtle); border: 1px solid var(--border);
+  border-radius: 5px; padding: 3px 9px; font-family: monospace; font-size: 12px;
+  color: var(--navy); margin: 4px 0;
+}
+.step-done { border-left: 4px solid #4ade80; }
+.step-done .step-num { background: var(--green-lt); color: var(--green); }
+
+/* ── UI MOCK ── */
+.ui-mock {
+  background: var(--subtle); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 16px; margin: 8px 0 4px; font-size: 12px;
+}
+.ui-mock .mock-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+}
+.mock-window { background: white; border: 1px solid #ccc; border-radius: 8px; overflow: hidden; }
+.mock-topbar {
+  background: #f0f0f0; padding: 7px 12px; display: flex;
+  align-items: center; gap: 6px; border-bottom: 1px solid #ddd;
+}
+.mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mock-url {
+  flex: 1; background: white; border: 1px solid #ccc; border-radius: 4px;
+  padding: 3px 10px; font-size: 11px; color: #555; margin-left: 8px;
+}
+.mock-body { padding: 14px 16px; }
+.mock-sidebar {
+  display: flex; min-height: 200px;
+}
+.mock-sidebar-left {
+  width: 170px; background: #f7f9fc; border-right: 1px solid var(--border);
+  padding: 12px 0; flex-shrink: 0;
+}
+.mock-sidebar-right { flex: 1; padding: 16px; }
+.mock-sidebar-item {
+  display: flex; align-items: center; gap: 8px; padding: 7px 14px;
+  font-size: 12px; font-weight: 600; cursor: default;
+}
+.mock-sidebar-item.active { background: var(--sky); color: var(--navy); }
+.mock-sidebar-item.normal { color: var(--muted); }
+.mock-sidebar-section {
+  padding: 10px 14px 4px; font-size: 9.5px; font-weight: 800;
+  letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; margin-top: 6px;
+}
+.mock-btn {
+  display: inline-block; padding: 7px 16px; border-radius: 7px;
+  font-size: 12px; font-weight: 700; cursor: default; margin: 2px;
+}
+.mock-btn.blue { background: var(--steel); color: white; }
+.mock-btn.outline { background: white; border: 1.5px solid var(--border); color: var(--navy); }
+.mock-btn.gray { background: #f0f0f0; color: #555; border: 1px solid #ddd; }
+.mock-btn.red { background: #EF4444; color: white; }
+.mock-highlight {
+  background: #fff3cd; border: 1.5px solid #f0c040; border-radius: 5px;
+  padding: 4px 10px; font-size: 12px; font-weight: 700; color: #7B4F00;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.mock-highlight::before { content: "👆"; font-size: 13px; }
+
+.app-card {
+  background: white; border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px 14px; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 12px;
+}
+.app-icon { width: 36px; height: 36px; border-radius: 8px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.app-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+.app-desc { font-size: 11.5px; color: var(--muted); margin-top: 1px; }
+.app-add { margin-left:auto; }
+
+/* ── CALLOUTS ── */
+.callout {
+  border-radius: 0 9px 9px 0; padding: 13px 16px; margin: 12px 0;
+  font-size: 13px; line-height: 1.6;
+  border-left-width: 4px; border-left-style: solid;
+}
+.callout strong { display: block; font-size: 13px; margin-bottom: 3px; }
+.callout-tip   { background: var(--sky);    border-color: var(--steel);  color: var(--navy); }
+.callout-warn  { background: var(--amber);  border-color: #C9820A;       color: var(--gold); }
+.callout-warn strong { color: #7B5200; }
+.callout-alert { background: var(--red-lt); border-color: #EF4444;       color: var(--red-text); }
+.callout-alert strong { color: #7F1D1D; }
+.callout-verify { background: #F5F3FF; border-color: #7C3AED; color: #4C1D95; }
+.callout-verify strong { color: #3B0764; }
+.callout-green { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.callout-green strong { color: #14532D; }
+
+/* ── COPY SUGGESTION ── */
+.copy-suggestion {
+  background: #F0FDF4;
+  border: 1.5px solid #86EFAC;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 10px 0;
+  font-size: 13px;
+}
+.copy-suggestion .copy-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--green); margin-bottom: 8px;
+}
+.copy-suggestion blockquote {
+  font-style: italic; color: #1a3a28; line-height: 1.65; margin: 0;
+  border-left: 3px solid #86EFAC; padding-left: 12px;
+}
+.copy-suggestion .copy-source {
+  font-size: 11px; color: var(--muted); margin-top: 6px;
+}
+
+/* ── CHECKLIST ── */
+.checklist { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+.checklist li {
+  display: flex; align-items: flex-start; gap: 10px; font-size: 13px;
+  background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px;
+}
+.checklist li::before { content: "☐"; font-size: 16px; color: var(--steel); flex-shrink: 0; line-height: 1; margin-top: 1px; }
+
+/* ── DATA TABLE ── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0; }
+.data-table th { background: var(--sky); color: var(--navy); font-weight: 700; padding: 8px 12px; text-align: left; }
+.data-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.data-table tr:last-child td { border-bottom: none; }
+
+/* ── DIVIDER ── */
+.section-divider { height: 1px; background: var(--border); margin: 32px 0 0; }
+
+/* ── BRANDING SECTION ── */
+.brand-outer {
+  background: white;
+  border: 2px solid #D97706;
+  border-radius: 12px;
+  margin: 28px 40px 0;
+  overflow: hidden;
+}
+.brand-header {
+  background: #92400E;
+  color: white;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-header .brand-sub { font-size: 12px; font-weight: 400; opacity: .75; margin-left: 8px; }
+.brand-body { padding: 24px 24px 8px; }
+.brand-block { margin-bottom: 32px; }
+.brand-block h3 {
+  font-size: 15px; font-weight: 700; color: #78350F;
+  margin-bottom: 14px; padding-bottom: 8px;
+  border-bottom: 2px solid #FEF3C7;
+}
+.brand-block h4 { font-size: 13px; font-weight: 700; color: var(--navy); margin: 14px 0 6px; }
+.brand-pos {
+  background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 10px;
+  padding: 16px 18px; font-size: 13.5px; line-height: 1.75; color: var(--text);
+  font-style: italic;
+}
+.palette-option {
+  background: var(--subtle); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px; margin-bottom: 16px;
+}
+.palette-option h4 { margin-top: 0; color: #92400E; }
+.swatch-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+.swatch {
+  border-radius: 8px; padding: 10px 14px; min-width: 110px;
+  font-size: 11px; line-height: 1.5;
+}
+.swatch .sw-hex { font-family: monospace; font-weight: 700; font-size: 12px; display: block; }
+.swatch .sw-name { display: block; font-weight: 600; margin-top: 2px; }
+.swatch .sw-use { display: block; opacity: .8; font-size: 10.5px; margin-top: 1px; }
+.palette-rationale {
+  font-size: 12.5px; color: var(--muted); line-height: 1.6; margin: 10px 0 8px;
+}
+.css-block {
+  background: #1e1e2e; color: #cdd6f4; border-radius: 8px;
+  padding: 12px 14px; font-family: monospace; font-size: 11.5px;
+  line-height: 1.7; margin-top: 8px; overflow-x: auto;
+}
+.css-block .css-comment { color: #6c7086; }
+.css-block .css-var { color: #89b4fa; }
+.css-block .css-val { color: #a6e3a1; }
+.type-specimen {
+  background: white; border: 1px solid var(--border); border-radius: 10px;
+  padding: 18px 20px; margin-bottom: 12px;
+}
+.type-specimen .ts-tag { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.type-scale-row { display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+.type-scale-row:last-child { border-bottom: none; margin-bottom: 0; }
+.type-scale-label { font-size: 11px; color: var(--muted); width: 60px; flex-shrink: 0; }
+.type-scale-example { color: var(--text); }
+.logo-dir {
+  background: var(--subtle); border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px; margin-bottom: 12px;
+}
+.logo-dir h4 { margin-top: 0; }
+.logo-lockup {
+  background: white; border: 1px solid var(--border); border-radius: 8px;
+  padding: 20px 24px; text-align: center; margin: 10px 0;
+}
+.voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 12px 0; }
+.voice-col h4 { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+.voice-col.do h4 { color: var(--green); }
+.voice-col.dont h4 { color: var(--red-text); }
+.voice-item {
+  font-size: 12.5px; padding: 7px 10px; border-radius: 6px; margin-bottom: 6px; line-height: 1.45;
+}
+.voice-item.do-item { background: var(--green-lt); color: #14532D; }
+.voice-item.dont-item { background: var(--red-lt); color: var(--red-text); }
+.designer-brief {
+  background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 10px;
+  padding: 16px 18px; font-size: 13px; line-height: 1.7;
+}
+.designer-brief h4 { margin-top: 0; color: #92400E; }
+@media (max-width: 700px) {
+  .brand-outer { margin-left: 20px; margin-right: 20px; }
+  .voice-grid { grid-template-columns: 1fr; }
+}
+
+/* ── COPY REFERENCE SECTION ── */
+.copy-ref-outer {
+  background: white;
+  border: 2px solid #7C3AED;
+  border-radius: 12px;
+  margin: 28px 40px 0;
+  overflow: hidden;
+}
+.copy-ref-header {
+  background: #7C3AED;
+  color: white;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.copy-ref-header .copy-ref-sub {
+  font-size: 12px; font-weight: 400; opacity: .75; margin-left: 8px;
+}
+.copy-ref-body { padding: 24px 24px 8px; }
+.copy-ref-block {
+  margin-bottom: 32px;
+}
+.copy-ref-block h3 {
+  font-size: 15px; font-weight: 700; color: #3B0764;
+  margin-bottom: 14px; padding-bottom: 8px;
+  border-bottom: 2px solid #EDE9FE;
+}
+.copy-ref-block h4 {
+  font-size: 13px; font-weight: 700; color: var(--navy);
+  margin: 14px 0 6px;
+}
+.headline-option {
+  background: #F5F3FF;
+  border: 1.5px solid #C4B5FD;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+.headline-option .opt-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #7C3AED; margin-bottom: 6px;
+}
+.headline-option .headline-text {
+  font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 6px;
+}
+.headline-option .subheadline-text {
+  font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 6px;
+}
+.headline-option .why-note {
+  font-size: 11.5px; color: #6D28D9; font-style: italic;
+}
+.tier-card {
+  background: var(--subtle);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.tier-card .tier-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+}
+.tier-card .tier-name { font-size: 15px; font-weight: 700; color: var(--navy); }
+.tier-card .tier-tagline { font-size: 12px; color: var(--steel); font-style: italic; margin-bottom: 8px; }
+.tier-card .tier-price { font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+.tier-card .tier-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+.tier-card ul { list-style: none; padding: 0; margin-bottom: 10px; }
+.tier-card ul li { font-size: 12.5px; color: var(--text); padding: 3px 0; }
+.tier-card ul li::before { content: "✓ "; color: var(--green); font-weight: 700; }
+.tier-card .tier-cta-row { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+.tier-card .tier-cta { background: var(--steel); color: white; padding: 7px 18px; border-radius: 7px; font-size: 12px; font-weight: 700; }
+.tier-card .tier-trust { font-size: 11px; color: var(--muted); }
+.faq-item {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.faq-item .faq-q { font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+.faq-item .faq-a { color: var(--muted); line-height: 1.6; }
+.assessment-item {
+  border-radius: 0 8px 8px 0;
+  padding: 11px 14px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  border-left: 4px solid;
+}
+.assessment-good { background: var(--green-lt); border-color: var(--green); color: #14532D; }
+.assessment-revise { background: var(--amber); border-color: #C9820A; color: #7B5200; }
+.assessment-missing { background: var(--sky); border-color: var(--steel); color: var(--navy); }
+.assessment-item .aq { font-style: italic; margin: 4px 0; }
+.assessment-item .ar { font-style: normal; font-weight: 600; }
+
+/* ── SCREENSHOTS ── */
+.screenshot-wrap { position: relative; display: block; margin: 16px 0; }
+.screenshot-wrap img { width: 100%; border-radius: 8px; border: 1px solid var(--border); display: block; }
+.screenshot-annotation {
+  position: absolute; background: #EF4444; color: white;
+  font-size: 11px; font-weight: 700; padding: 3px 10px;
+  border-radius: 4px; white-space: nowrap; pointer-events: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+.screenshot-annotation::before { content: "▶ "; }
+.screenshot-caption { font-size: 11.5px; color: var(--muted); margin-top: 6px; font-style: italic; }
+
+@media (max-width: 700px) {
+  .sidebar { width: 100%; position: relative; }
+  .main { margin-left: 0; }
+  .content { padding: 0 20px; }
+  .hero, .confidence-banner, .starting-point, .alert-banner, .copy-ref-outer { margin-left: 20px; margin-right: 20px; }
+  .layout { flex-direction: column; }
+  .starting-point-body { grid-template-columns: 1fr; }
+  .phase-status-box { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="platform">Wix — Personalized Guide</div>
+    <div class="title">Christian Life Coaching<br/>Build Guide</div>
+    <div class="site-name">mindsetovermatter.net</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-phase">Starting Point</div>
+    <a class="nav-link" href="#starting-point"><span class="num">★</span> Your Site Right Now <span class="status-dot dot-partial"></span></a>
+
+    <div class="nav-phase">Apps &amp; Payments</div>
+    <a class="nav-link" href="#phase1"><span class="num">1</span> Install Missing Apps <span class="status-dot dot-partial"></span></a>
+    <a class="nav-link" href="#phase2"><span class="num">2</span> Finish Payments Setup <span class="status-dot dot-partial"></span></a>
+    <a class="nav-link" href="#phase3"><span class="num">3</span> Fix Pricing Plans <span class="status-dot dot-action"></span></a>
+
+    <div class="nav-phase">Content</div>
+    <a class="nav-link" href="#phase4"><span class="num">4</span> Build Video Library <span class="status-dot dot-todo"></span></a>
+    <a class="nav-link" href="#phase5"><span class="num">5</span> Group Coaching Sessions <span class="status-dot dot-todo"></span></a>
+    <a class="nav-link" href="#phase6"><span class="num">6</span> 1:1 Private Booking <span class="status-dot dot-todo"></span></a>
+
+    <div class="nav-phase">Member Experience</div>
+    <a class="nav-link" href="#phase7"><span class="num">7</span> Member Accounts <span class="status-dot dot-done"></span></a>
+    <a class="nav-link" href="#phase8"><span class="num">8</span> Polish Home Page <span class="status-dot dot-partial"></span></a>
+    <a class="nav-link" href="#phase9"><span class="num">9</span> Automated Emails <span class="status-dot dot-todo"></span></a>
+
+    <div class="nav-phase">Launch</div>
+    <a class="nav-link" href="#phase10"><span class="num">10</span> Test &amp; Go Live <span class="status-dot dot-todo"></span></a>
+
+    <div class="nav-phase">Copy &amp; Content</div>
+    <a class="nav-link" href="#copy-ref"><span class="num">📝</span> Copy Reference</a>
+    <a class="nav-link" href="#branding"><span class="num">🎨</span> Branding Guide</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+<div class="hero">
+  <div class="eyebrow">Personalized Build Guide — Mindset Over Matter</div>
+  <h1>Troy's Wix Build Guide</h1>
+  <p>This guide is customized for your site. It skips everything you've already done and goes straight to what's left — using your actual content wherever possible.</p>
+  <div class="badges">
+    <span class="badge badge-green">Site reviewed 2026-03-28</span>
+    <span class="badge badge-blue">mindsetovermatter.net</span>
+  </div>
+</div>
+
+
+<!-- ── YOUR STARTING POINT ── -->
+<div class="starting-point">
+  <div class="starting-point-header">
+    ★ Your Starting Point — What We Found on Your Site (March 28, 2026)
+  </div>
+  <div class="starting-point-body">
+    <div class="sp-col">
+      <h4>What's Already Done</h4>
+      <div class="sp-item"><span class="sp-icon">✅</span><span><strong>Domain connected</strong> — mindsetovermatter.net is live and linked to your Wix site. That's real money spent and work done.</span></div>
+      <div class="sp-item"><span class="sp-icon">✅</span><span><strong>Hero copy written</strong> — "I Get It / I've Been There / I Can Help" is solid. Your words, your voice. We'll use this.</span></div>
+      <div class="sp-item"><span class="sp-icon">✅</span><span><strong>About Me page complete</strong> — Full personal story written, real photo of you and Carrie uploaded. This is the best asset on your site.</span></div>
+      <div class="sp-item"><span class="sp-icon">✅</span><span><strong>3 pricing plans created</strong> — Basic ($30/mo), Intermediate ($50/mo), Advanced ($150/week · 4 weeks). Structure is correct.</span></div>
+      <div class="sp-item"><span class="sp-icon">✅</span><span><strong>4 apps installed</strong> — Members Area, Wix Video, Wix Pricing Plans, Wix Bookings are all in place.</span></div>
+      <div class="sp-item"><span class="sp-icon">✅</span><span><strong>Wix Payments activated</strong> — The account is started. Just needs bank payout details to finish.</span></div>
+      <div class="sp-item"><span class="sp-icon">✅</span><span><strong>Paywall infrastructure working</strong> — The gating system is functional. Someone without a plan who tries to access member content hits a "Get a plan" page.</span></div>
+    </div>
+    <div class="sp-col">
+      <h4>What Still Needs Doing</h4>
+      <div class="sp-item"><span class="sp-icon">🟡</span><span><strong>Finish payment payout setup</strong> — Bank account details needed so you can actually receive money.</span></div>
+      <div class="sp-item"><span class="sp-icon">🟡</span><span><strong>Install 2 missing apps</strong> — Wix Online Programs (for video library) and Wix Events (for group coaching) are not installed yet.</span></div>
+      <div class="sp-item"><span class="sp-icon">🟡</span><span><strong>Set up video library</strong> — Wix Video is installed but not configured. No videos uploaded yet. This is the Tier 1 product.</span></div>
+      <div class="sp-item"><span class="sp-icon">🟡</span><span><strong>Create bookable services</strong> — Wix Bookings is installed but the Book Online page shows 9 placeholder "Service name / $45" cards. Needs real services.</span></div>
+      <div class="sp-item"><span class="sp-icon">🟡</span><span><strong>Add CTA button to hero</strong> — No "Get Started" or "See Plans" button on your home page. Visitors have no clear next step.</span></div>
+      <div class="sp-item"><span class="sp-icon">🟡</span><span><strong>Remove empty Members gallery</strong> — There's a blank gallery placeholder under your About section that says "Add your images, video and text." Hide or fill it.</span></div>
+      <div class="sp-item"><span class="sp-icon">🟡</span><span><strong>Publish the site</strong> — Nothing is live yet. The site only exists in your editor.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     COPY & CONTENT REFERENCE
+══════════════════════════════════════════ -->
+<div class="copy-ref-outer" id="copy-ref">
+  <div class="copy-ref-header">
+    📝 Copy &amp; Content Reference
+    <span class="copy-ref-sub">— What to type on each page. Use as-is or adapt to your voice.</span>
+  </div>
+  <div class="copy-ref-body">
+
+    <!-- EXISTING COPY ASSESSMENT -->
+    <div class="copy-ref-block">
+      <h3>Your Existing Copy — What's Working and What Needs Attention</h3>
+
+      <div class="assessment-item assessment-good">
+        <strong>Keep exactly as written: "I GET IT! / I'VE BEEN THERE! / I CAN HELP!"</strong>
+        <p class="aq">This is a professional-grade three-act structure — problem, credibility, solution — in six words. A copywriter would be proud of this. Do not change it.</p>
+      </div>
+
+      <div class="assessment-item assessment-good">
+        <strong>Keep exactly as written: Full About Me section</strong>
+        <p class="aq">"I messed things up, I got in God's way... We might get an 'instant gratification', but that glow often fades..."</p>
+        <p>This is the best asset on your site. You wrote it yourself, in your own voice, and it shows. Visitors will trust you because of this paragraph faster than any credential or certification ever could. Leave it alone.</p>
+      </div>
+
+      <div class="assessment-item assessment-good">
+        <strong>Keep: "...this world would not be the same without you in it. You are NEEDED and LOVED!"</strong>
+        <p>Strong closing. Personal and direct. The capitalization feels authentic — not gimmicky.</p>
+      </div>
+
+      <div class="assessment-item assessment-revise">
+        <strong>Minor revision: "Most of the time, we know the answers that we are looking for."</strong>
+        <p class="aq">This slightly undercuts your premise — if people already know the answers, why do they need coaching?</p>
+        <p class="ar">Suggested: "Most of the time, we can feel the right direction — but the path gets cloudy, and we lose our way."</p>
+      </div>
+
+      <div class="assessment-item assessment-revise">
+        <strong>Minor revision: "I am accepting new clients for group, or independent coaching"</strong>
+        <p class="aq">Slightly formal for the warm voice you've established everywhere else.</p>
+        <p class="ar">Suggested: "I'm working with new clients now — in group coaching, or one-on-one."</p>
+      </div>
+
+      <div class="assessment-item assessment-missing">
+        <strong>Missing: A CTA after "I CAN HELP!"</strong>
+        After the hero copy, visitors have nowhere to go. Add a button: "See Your Options" linking to /plans-pricing.
+      </div>
+
+      <div class="assessment-item assessment-missing">
+        <strong>Missing: Any copy explaining what coaching sessions actually look like</strong>
+        Visitors don't know what to expect. The FAQ section below addresses this.
+      </div>
+    </div>
+
+    <!-- HERO HEADLINES -->
+    <div class="copy-ref-block">
+      <h3>Homepage Hero — Headline Options (add above "I GET IT!")</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">Your "I GET IT / I'VE BEEN THERE / I CAN HELP" section is excellent — keep it. Add one of these headlines <em>above</em> it as an entry point for first-time visitors.</p>
+
+      <div class="headline-option">
+        <div class="opt-label">Option A — Meets them where they are</div>
+        <div class="headline-text">You Already Know Something Has to Change</div>
+        <div class="subheadline-text">You've tried handling it yourself. Maybe it worked for a while — or maybe it never really did. Either way, you don't have to figure out the next chapter alone. That's where I come in.</div>
+        <div class="why-note">Why it works: "You already know" validates their instinct instead of telling them what to feel. Low barrier to entry — faith isn't required to connect with this.</div>
+      </div>
+
+      <div class="headline-option">
+        <div class="opt-label">Option B — Faith-forward, no jargon</div>
+        <div class="headline-text">God Has More for You Than This</div>
+        <div class="subheadline-text">You can feel it — there's a gap between where you are and where you're supposed to be. It's not failure. It's a door. Let's walk through it together.</div>
+        <div class="why-note">Why it works: "Supposed to be" carries the weight of calling without using the word. "A door" references scripture without quoting it. Faith-forward but not exclusive.</div>
+      </div>
+
+      <div class="headline-option">
+        <div class="opt-label">Option C — Direct, universally relatable</div>
+        <div class="headline-text">Stuck Is Not Your Final Answer</div>
+        <div class="subheadline-text">When the fog rolls in and the path isn't clear, you need more than advice — you need someone who's been there, knows the way out, and knows Who to ask.</div>
+        <div class="why-note">Why it works: The widest entry point. "Who to ask" (capitalized) signals faith without preaching. Addresses the emotional state without assuming where the person is spiritually.</div>
+      </div>
+    </div>
+
+    <!-- ABOUT SECTION -->
+    <div class="copy-ref-block">
+      <h3>About Page — Draft (use your existing copy, add this framing around it)</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">Your current About Me is already strong. The draft below is a suggested opening frame + closing that works with your existing copy, not a replacement for it. Drop your current About Me text where marked.</p>
+      <div class="copy-suggestion" style="background:#F5F3FF; border-color:#C4B5FD;">
+        <div class="copy-label" style="color:#7C3AED;">Suggested About Page Draft — adapt to your voice</div>
+        <blockquote style="border-color:#C4B5FD; color:#2e1065;">
+          I'm Troy — a certified Christian life coach. And I'll be honest with you: I came to this work the hard way.<br/><br/>
+          [YOUR EXISTING ABOUT ME TEXT GOES HERE — keep it verbatim]<br/><br/>
+          That's what led me here. Not a career pivot. Not a business opportunity. A calling I couldn't shake — one I tried to set aside more than once, and one that kept finding me anyway.<br/><br/>
+          I work with people who are motivated, who believe, and who feel the gap between where they are and where God is taking them. If that's you — you're in the right place.<br/><br/>
+          You are needed. You are loved. And you don't have to figure this out alone.
+        </blockquote>
+        <div class="copy-source">The opening sentence and closing paragraph are new additions. The middle is your existing copy untouched. The closing sentence echoes your current "You are NEEDED and LOVED!" which creates a satisfying bookend.</div>
+      </div>
+    </div>
+
+    <!-- PRICING PLAN COPY -->
+    <div class="copy-ref-block">
+      <h3>Pricing Plans — Full Copy for Each Card</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">Use this copy when updating your plan descriptions in Wix (Phase 3). The plan names are optional — keep Basic/Intermediate/Advanced if you prefer, or use the suggested names.</p>
+
+      <div class="tier-card">
+        <div class="tier-label">Plan 1 — Tier 1</div>
+        <div class="tier-name">Basic <span style="font-weight:400; color:var(--muted);">(or "Foundation")</span></div>
+        <div class="tier-tagline">"The library that goes with you."</div>
+        <div class="tier-price">$30 / month</div>
+        <div class="tier-desc">Unlimited access to Troy's full video lesson library and podcast episodes — organized by topic, available any time. Watch at your own pace, on your schedule. New content added regularly.</div>
+        <ul>
+          <li>Learn on your own time — no deadlines, no pressure</li>
+          <li>Content built around faith, mindset, purpose, and moving forward</li>
+          <li>Start building clarity before you're ready to talk to anyone</li>
+          <li>Watch on any device — phone, tablet, or computer</li>
+          <li>Cancel any time, no questions asked</li>
+        </ul>
+        <div class="tier-cta-row">
+          <span class="tier-cta">Get Access</span>
+          <span class="tier-trust">Cancel anytime · No contracts</span>
+        </div>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-label">Plan 2 — Tier 2</div>
+        <div class="tier-name">Intermediate <span style="font-weight:400; color:var(--muted);">(or "Guided Growth")</span></div>
+        <div class="tier-tagline">"Do the work. With people who get it."</div>
+        <div class="tier-price">$50 / month <span style="font-size:12px; color:#C9820A; font-weight:600;">(consider $67–$77 — see Phase 3)</span></div>
+        <div class="tier-desc">Everything in the Basic plan, plus four live group coaching sessions with Troy every month. Real conversations, real questions, real progress — with a small group of people walking the same road.</div>
+        <ul>
+          <li>Four sessions a month means you're never stuck for long</li>
+          <li>Ask Troy directly — get answers specific to your situation</li>
+          <li>Community accountability with people who share your faith and your drive</li>
+          <li>Full access to the video library included</li>
+          <li>Cancel any time</li>
+        </ul>
+        <div class="tier-cta-row">
+          <span class="tier-cta">Join the Group</span>
+          <span class="tier-trust">Cancel anytime · Monthly billing</span>
+        </div>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-label">Plan 3 — Tier 3</div>
+        <div class="tier-name">Advanced <span style="font-weight:400; color:var(--muted);">(or "Private Coaching" or "1:1 Intensive")</span></div>
+        <div class="tier-tagline">"Just you and Troy. Four weeks. All in."</div>
+        <div class="tier-price">$150/week <span style="font-size:12px; color:var(--muted);">· 4-week commitment · $600 total</span></div>
+        <div class="tier-desc">Four weeks of dedicated 1:1 private coaching with Troy — the most intensive, personal offering on the site. Each week you and Troy meet one-on-one for a focused session. No group, no pre-set agenda. You bring what's on your heart and we go from there.</div>
+        <ul>
+          <li>Weekly private sessions with Troy for 4 weeks</li>
+          <li>100% focused on your situation and your next step</li>
+          <li>Walk away from each session with clarity and a specific action</li>
+          <li>Held online via Google Meet or Zoom</li>
+          <li>Scheduled at times that work for you</li>
+        </ul>
+        <div class="tier-cta-row">
+          <span class="tier-cta">Start Your 4-Week Journey</span>
+          <span class="tier-trust">$150/week · 4 weeks · billed weekly · $600 total</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="copy-ref-block">
+      <h3>FAQ — 8 Questions to Add to Your Site</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">Add a FAQ section to your home page or a standalone FAQ page. These are the questions real visitors will have before they buy.</p>
+
+      <div class="faq-item">
+        <div class="faq-q">What happens right after I sign up?</div>
+        <div class="faq-a">You'll get a welcome email from Troy with a link to your member dashboard. From there you can access the video library, see upcoming group sessions, or book a private appointment — depending on which plan you chose. The whole process takes about 2 minutes.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">How do I access the video content?</div>
+        <div class="faq-a">Through your member account on this site. Log in, go to your member area, and everything you have access to is right there. You can watch on your phone, tablet, or computer — no special app required.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Can I cancel my subscription?</div>
+        <div class="faq-a">Yes, any time. No contracts, no cancellation fees, no runaround. Log into your account, go to My Subscriptions, and cancel with one click. Your access continues through the end of the billing period you already paid for.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">What makes this different from other life coaching?</div>
+        <div class="faq-a">Most coaching focuses on goals, habits, and productivity. Those things matter — but they're incomplete without a foundation underneath. This coaching is built around the belief that God has a specific path for your life, and real progress means getting aligned with that path — not just optimizing around it.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Do I have to be deeply religious or attend church regularly?</div>
+        <div class="faq-a">No. This coaching is faith-based — meaning it's grounded in belief in God and the idea that your life has purpose. But you don't need to be a theologian or a regular churchgoer. If you believe and you're open, you're welcome here.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">What if I join and it's not what I expected?</div>
+        <div class="faq-a">Reach out directly — Troy reads every message. The goal is for this to genuinely help you, not just hold your subscription. If something isn't clicking, let's figure out why before you go.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">How do the group coaching sessions work?</div>
+        <div class="faq-a">Sessions are held live online via Google Meet. Troy posts the schedule each month. You join at the scheduled time, participate as much or as little as you're comfortable with, and can ask questions directly. Sessions are generally 45–60 minutes.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">What if I'm not ready for a 4-week commitment — is there a way to start smaller?</div>
+        <div class="faq-a">Absolutely. The Basic plan ($30/month) lets you start with Troy's full video library and see if his approach resonates — no long-term commitment. The Intermediate plan adds live group coaching every month. The Advanced plan is for when you're ready to go all in: four weeks of private 1:1 coaching, fully focused on you.</div>
+      </div>
+    </div>
+
+    <!-- CONTENT CREATION PLAN -->
+    <div class="copy-ref-block">
+      <h3>Content Creation Plan — What to Record First</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">Troy currently has zero videos recorded. The platform cannot launch Tier 1 without at least one piece of content. This section covers what to record, in what order, and how to record it with minimal equipment.</p>
+
+      <div class="callout callout-tip" style="margin-bottom:16px;">
+        <strong>Minimum viable launch: 1-2 videos</strong>
+        You don't need a full library to open the doors. One solid 10-15 minute video is enough to launch and tell early members "more is coming weekly." Launch lean. Build momentum. Add content as you go.
+      </div>
+
+      <h4>Suggested First 8 Video Topics — in order</h4>
+      <p style="font-size:12.5px; color:var(--muted); margin-bottom:10px;">Based on Troy's background, coaching focus, and the kind of person who will be joining. Record these in order — #1 is the most important to have at launch.</p>
+
+      <div class="faq-item">
+        <div class="faq-q">Video 1 (record first): "Why I Named It Mindset Over Matter — and What It Actually Means"</div>
+        <div class="faq-a">Your story. Why you built this. What "mindset over matter" means in the context of faith — not positive thinking, but trusting God over circumstances. Sets the tone for everything that follows. Members who watch this first will know immediately whether they're in the right place.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Video 2: "The Three Reasons We Stay Stuck"</div>
+        <div class="faq-a">Addresses the core problem your members signed up to solve. Three reasons: (1) trying to figure it out alone, (2) doing things our way instead of God's, (3) waiting for clarity before taking a step. Each one speaks directly to what Troy covered in his About Me.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Video 3: "Getting Out of God's Way — What I Had to Learn the Hard Way"</div>
+        <div class="faq-a">Troy's personal story in more depth — the moments he tried to take matters into his own hands and what happened. Very relatable. This is the kind of content that builds deep trust.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Video 4: "When God Says Wait — and What to Do While You're Waiting"</div>
+        <div class="faq-a">One of the most common frustrations in faith-based coaching. Practical and spiritually grounded. Connects to Troy's own 28-year journey back to Ottumwa.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Video 5: "Faith + Action: How to Move When the Path Isn't Clear"</div>
+        <div class="faq-a">Addresses the paralysis many people feel — waiting for a clear sign before acting. Practical framework for taking the next small step even in uncertainty.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Video 6: "You Are Not Your Circumstances"</div>
+        <div class="faq-a">Connects directly to the hero copy — "the world can be pretty rough." Reframes how members see their current situation relative to who God says they are.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Video 7: "The Difference Between Being Content and Being Complacent"</div>
+        <div class="faq-a">Troy referenced being "content" in Ottumwa before God moved him again. This is a powerful distinction that speaks to people who are comfortable but feel called to more.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Video 8: "How to Pray When You Don't Know What to Ask For"</div>
+        <div class="faq-a">Practical and accessible. Works for members at any spiritual level. Gives them something they can use immediately after watching.</div>
+      </div>
+
+      <h4 style="margin-top:20px;">Recording format — keep it simple</h4>
+      <div class="steps" style="margin-top:8px;">
+        <div class="step">
+          <div class="step-num" style="background:#F5F3FF; color:#7C3AED;">▶</div>
+          <div class="step-body">
+            <strong>Equipment: your phone is enough</strong>
+            <p>A modern smartphone records excellent video. Prop it against something stable at eye level, or buy a $15 phone tripod from Amazon. No camera needed.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:#F5F3FF; color:#7C3AED;">▶</div>
+          <div class="step-body">
+            <strong>Lighting: face a window</strong>
+            <p>Natural light from a window in front of you (not behind you) is all you need. Daytime, curtains open. Free.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:#F5F3FF; color:#7C3AED;">▶</div>
+          <div class="step-body">
+            <strong>Format: talk, don't read</strong>
+            <p>Write 3-5 bullet points on a notepad, prop it just below the camera, glance at it if needed. Don't write a script — Troy's natural voice is his greatest asset. The more relaxed and conversational, the better.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:#F5F3FF; color:#7C3AED;">▶</div>
+          <div class="step-body">
+            <strong>Length: 10-20 minutes per video</strong>
+            <p>Long enough to go deep, short enough to watch on a lunch break. Don't pad it — end when you're done.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:#F5F3FF; color:#7C3AED;">▶</div>
+          <div class="step-body">
+            <strong>Upload to YouTube as Unlisted, then link in Wix</strong>
+            <p>Upload the video to YouTube → set to Unlisted (not Private, not Public) → copy the link → paste it into the Wix Online Programs lesson. This is free, fast, and keeps your Wix storage clear. See Phase 4 for the full steps.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:#F5F3FF; color:#7C3AED;">▶</div>
+          <div class="step-body">
+            <strong>Same recording becomes a podcast episode</strong>
+            <p>After recording a video, export just the audio and upload it to Spotify for Podcasters (free). One recording, two pieces of content. If Troy wants to build a podcast, this is how to start without extra work.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /copy-ref-body -->
+</div><!-- /copy-ref-outer -->
+
+<!-- ══════════════════════════════════════════
+     BRANDING & STYLE GUIDE
+══════════════════════════════════════════ -->
+<div class="brand-outer" id="branding">
+  <div class="brand-header">
+    🎨 Branding &amp; Style Guide
+    <span class="brand-sub">— Recommendations based on current site. No logo or color palette exists yet — these are directions for Troy to choose from.</span>
+  </div>
+  <div class="brand-body">
+
+    <!-- PRIORITY NOTE -->
+    <div class="callout callout-warn" style="margin-bottom:24px;">
+      <strong>Priority order if time or budget is limited</strong>
+      1. Pick a color palette and apply it in the Wix editor (free, ~1 hour) &nbsp;·&nbsp;
+      2. Pick fonts and set them site-wide (free, ~30 min) &nbsp;·&nbsp;
+      3. Logo direction — hand off to a designer when ready &nbsp;·&nbsp;
+      4. Photography — add as content is created
+    </div>
+
+    <!-- BRAND POSITIONING -->
+    <div class="brand-block">
+      <h3>1. Brand Positioning Statement (internal — not copy for the site)</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">This is the north star for all visual and written decisions. Everything on the site should feel consistent with this statement.</p>
+      <div class="brand-pos">
+        Troy is a certified Christian life coach who serves motivated believers who feel the gap between where they are and where God is calling them to be. He meets people in that gap — not with a program or a formula, but with lived experience, faith, and the kind of honesty that only comes from someone who's been stuck himself and found the way through. What makes his coaching different is the same thing that makes his story compelling: he didn't set out to be a coach. God wouldn't let him not be one. That conviction shows up in every conversation.
+      </div>
+    </div>
+
+    <!-- COLOR PALETTES -->
+    <div class="brand-block">
+      <h3>2. Color Palette — 3 Options</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">Troy currently has no defined color palette — the site uses Wix template defaults. Choose one of these options and apply it in the Wix Editor under <span class="path">Design → Site Design → Color Palette</span>.</p>
+
+      <!-- PALETTE A -->
+      <div class="palette-option">
+        <h4>Palette A — "Deep Roots" &nbsp;<span style="font-weight:400; font-size:12px; color:var(--muted);">Earthy, grounded, trustworthy</span></h4>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#2C4A2E; color:white;">
+            <span class="sw-hex">#2C4A2E</span>
+            <span class="sw-name">Deep Forest</span>
+            <span class="sw-use">Primary — headers, nav</span>
+          </div>
+          <div class="swatch" style="background:#8B6914; color:white;">
+            <span class="sw-hex">#8B6914</span>
+            <span class="sw-name">Harvest Gold</span>
+            <span class="sw-use">Secondary — accents</span>
+          </div>
+          <div class="swatch" style="background:#E8734A; color:white;">
+            <span class="sw-hex">#E8734A</span>
+            <span class="sw-name">Terracotta</span>
+            <span class="sw-use">Accent — CTA buttons</span>
+          </div>
+          <div class="swatch" style="background:#F9F5EF; color:#2C1810; border:1px solid #e0d6c8;">
+            <span class="sw-hex">#F9F5EF</span>
+            <span class="sw-name">Warm Cream</span>
+            <span class="sw-use">Background</span>
+          </div>
+          <div class="swatch" style="background:#1C1C1C; color:white;">
+            <span class="sw-hex">#1C1C1C</span>
+            <span class="sw-name">Near Black</span>
+            <span class="sw-use">Body text</span>
+          </div>
+        </div>
+        <div class="palette-rationale">Forest green anchors the brand in growth, rootedness, and stability — without feeling corporate. The harvest gold brings warmth and references light and faith themes. Together they feel like a trusted mentor's study, not a church bulletin or a self-help app.</div>
+        <div class="css-block">
+<span class="css-comment">/* Palette A — Deep Roots */</span>
+<span class="css-var">--primary:</span>   <span class="css-val">#2C4A2E</span>;  <span class="css-comment">/* Deep Forest */</span>
+<span class="css-var">--secondary:</span> <span class="css-val">#8B6914</span>;  <span class="css-comment">/* Harvest Gold */</span>
+<span class="css-var">--accent:</span>    <span class="css-val">#E8734A</span>;  <span class="css-comment">/* Terracotta */</span>
+<span class="css-var">--bg:</span>        <span class="css-val">#F9F5EF</span>;  <span class="css-comment">/* Warm Cream */</span>
+<span class="css-var">--text:</span>      <span class="css-val">#1C1C1C</span>;  <span class="css-comment">/* Near Black */</span></div>
+      </div>
+
+      <!-- PALETTE B -->
+      <div class="palette-option">
+        <h4>Palette B — "Still Waters" &nbsp;<span style="font-weight:400; font-size:12px; color:var(--muted);">Calm, purposeful, authoritative</span></h4>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#1B3A5C; color:white;">
+            <span class="sw-hex">#1B3A5C</span>
+            <span class="sw-name">Deep Navy</span>
+            <span class="sw-use">Primary — headers, nav</span>
+          </div>
+          <div class="swatch" style="background:#4A7FA5; color:white;">
+            <span class="sw-hex">#4A7FA5</span>
+            <span class="sw-name">Steel Blue</span>
+            <span class="sw-use">Secondary — links, borders</span>
+          </div>
+          <div class="swatch" style="background:#C9820A; color:white;">
+            <span class="sw-hex">#C9820A</span>
+            <span class="sw-name">Amber Gold</span>
+            <span class="sw-use">Accent — CTA buttons</span>
+          </div>
+          <div class="swatch" style="background:#F4F7FB; color:#1a2433; border:1px solid #dde5f0;">
+            <span class="sw-hex">#F4F7FB</span>
+            <span class="sw-name">Cool White</span>
+            <span class="sw-use">Background</span>
+          </div>
+          <div class="swatch" style="background:#1a2433; color:white;">
+            <span class="sw-hex">#1a2433</span>
+            <span class="sw-name">Charcoal</span>
+            <span class="sw-use">Body text</span>
+          </div>
+        </div>
+        <div class="palette-rationale">Navy carries depth, trustworthiness, and calm authority — the "still waters" quality of Psalm 23. The amber gold accent creates warmth and a sense of light breaking through. This palette photographs well and scales cleanly across digital and print uses.</div>
+        <div class="css-block">
+<span class="css-comment">/* Palette B — Still Waters */</span>
+<span class="css-var">--primary:</span>   <span class="css-val">#1B3A5C</span>;  <span class="css-comment">/* Deep Navy */</span>
+<span class="css-var">--secondary:</span> <span class="css-val">#4A7FA5</span>;  <span class="css-comment">/* Steel Blue */</span>
+<span class="css-var">--accent:</span>    <span class="css-val">#C9820A</span>;  <span class="css-comment">/* Amber Gold */</span>
+<span class="css-var">--bg:</span>        <span class="css-val">#F4F7FB</span>;  <span class="css-comment">/* Cool White */</span>
+<span class="css-var">--text:</span>      <span class="css-val">#1a2433</span>;  <span class="css-comment">/* Charcoal */</span></div>
+      </div>
+
+      <!-- PALETTE C -->
+      <div class="palette-option">
+        <h4>Palette C — "Morning Light" &nbsp;<span style="font-weight:400; font-size:12px; color:var(--muted);">Warm, human, hopeful</span></h4>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#5C3A1E; color:white;">
+            <span class="sw-hex">#5C3A1E</span>
+            <span class="sw-name">Deep Walnut</span>
+            <span class="sw-use">Primary — headers, nav</span>
+          </div>
+          <div class="swatch" style="background:#A0522D; color:white;">
+            <span class="sw-hex">#A0522D</span>
+            <span class="sw-name">Sienna</span>
+            <span class="sw-use">Secondary — accents</span>
+          </div>
+          <div class="swatch" style="background:#D4A017; color:white;">
+            <span class="sw-hex">#D4A017</span>
+            <span class="sw-name">Sunlight Gold</span>
+            <span class="sw-use">Accent — CTA buttons</span>
+          </div>
+          <div class="swatch" style="background:#FBF8F3; color:#2C1810; border:1px solid #e8ded2;">
+            <span class="sw-hex">#FBF8F3</span>
+            <span class="sw-name">Warm White</span>
+            <span class="sw-use">Background</span>
+          </div>
+          <div class="swatch" style="background:#2C1810; color:white;">
+            <span class="sw-hex">#2C1810</span>
+            <span class="sw-name">Warm Dark</span>
+            <span class="sw-use">Body text</span>
+          </div>
+        </div>
+        <div class="palette-rationale">Warm earth tones ground the brand in humanity and authenticity — the "I've been there" quality that runs through everything Troy does. Browns and golds reference faith traditions without being overtly religious. This palette feels the most personal and approachable of the three.</div>
+        <div class="css-block">
+<span class="css-comment">/* Palette C — Morning Light */</span>
+<span class="css-var">--primary:</span>   <span class="css-val">#5C3A1E</span>;  <span class="css-comment">/* Deep Walnut */</span>
+<span class="css-var">--secondary:</span> <span class="css-val">#A0522D</span>;  <span class="css-comment">/* Sienna */</span>
+<span class="css-var">--accent:</span>    <span class="css-val">#D4A017</span>;  <span class="css-comment">/* Sunlight Gold */</span>
+<span class="css-var">--bg:</span>        <span class="css-val">#FBF8F3</span>;  <span class="css-comment">/* Warm White */</span>
+<span class="css-var">--text:</span>      <span class="css-val">#2C1810</span>;  <span class="css-comment">/* Warm Dark */</span></div>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>How to apply in Wix</strong>
+        In the Wix Editor: <span class="path">Site Design → Color Palette</span> (or click any colored element → "Change Color Palette"). Paste in the hex values from whichever palette Troy chooses. Wix will ask you to map them to "Color 1" through "Color 5" — Primary = Color 1, Secondary = Color 2, Accent = Color 3.
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
+        <div>
+          <div class="screenshot-wrap">
+            <img src="screenshots/phase7_site_design.png" alt="Wix Editor Site Design panel" />
+            <div class="screenshot-annotation" style="top: 35%; left: 3%;">Click "Color theme" to edit</div>
+          </div>
+          <div class="screenshot-caption" style="margin-top:4px;">Step 1: Open Site Design panel in the Wix Editor (left toolbar → paintbrush icon)</div>
+        </div>
+        <div>
+          <div class="screenshot-wrap">
+            <img src="screenshots/phase7_color_theme.png" alt="Customize Color Theme panel showing base and accent colors" />
+            <div class="screenshot-annotation" style="top: 42%; left: 3%;">Replace these colors with your palette</div>
+          </div>
+          <div class="screenshot-caption" style="margin-top:4px;">Step 2: Customize Color Theme — base colors (top) and accent colors (bottom)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TYPOGRAPHY -->
+    <div class="brand-block">
+      <h3>3. Typography</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">No custom fonts were detected on the current site — Wix template defaults are in use. Recommend replacing with the pairing below. Both fonts are free via Google Fonts and available directly in the Wix Editor.</p>
+
+      <div class="type-specimen">
+        <div class="ts-tag">Recommended Pairing</div>
+        <div class="type-scale-row">
+          <span class="type-scale-label" style="font-size:10px;">Display /<br/>Headings</span>
+          <div>
+            <div style="font-size:22px; font-weight:700; letter-spacing:-.3px; color:var(--navy);">Playfair Display</div>
+            <div style="font-size:11.5px; color:var(--muted); margin-top:3px;">Google Fonts — free &nbsp;·&nbsp; Elegant, warm, authoritative &nbsp;·&nbsp; Use for page titles, section headers, plan names</div>
+          </div>
+        </div>
+        <div class="type-scale-row">
+          <span class="type-scale-label" style="font-size:10px;">Body /<br/>Interface</span>
+          <div>
+            <div style="font-size:16px; color:var(--text);">Open Sans — clean, readable, friendly at any size</div>
+            <div style="font-size:11.5px; color:var(--muted); margin-top:3px;">Google Fonts — free &nbsp;·&nbsp; Use for all body text, descriptions, buttons, nav, captions</div>
+          </div>
+        </div>
+      </div>
+
+      <h4>Suggested type scale</h4>
+      <table class="data-table">
+        <tr><th>Element</th><th>Font</th><th>Size</th><th>Weight</th></tr>
+        <tr><td>Page headline (H1)</td><td>Playfair Display</td><td>36–42px</td><td>700</td></tr>
+        <tr><td>Section header (H2)</td><td>Playfair Display</td><td>26–30px</td><td>700</td></tr>
+        <tr><td>Subsection (H3)</td><td>Open Sans</td><td>18–20px</td><td>700</td></tr>
+        <tr><td>Body text</td><td>Open Sans</td><td>15–16px</td><td>400</td></tr>
+        <tr><td>Captions / labels</td><td>Open Sans</td><td>12–13px</td><td>400 or 600</td></tr>
+        <tr><td>Buttons</td><td>Open Sans</td><td>14px</td><td>700</td></tr>
+      </table>
+
+      <div class="callout callout-tip" style="margin-top:12px;">
+        <strong>How to apply in Wix</strong>
+        In the Wix Editor: <span class="path">Site Design → Text Themes</span>. Set "Heading" font to Playfair Display, "Body" font to Open Sans. This updates all text site-wide automatically.
+      </div>
+
+      <div style="max-width:320px; margin-top:16px;">
+        <div class="screenshot-wrap">
+          <img src="screenshots/phase7_text_theme.png" alt="Customize Text Theme panel showing Helvetica Bold heading and Helvetica body" />
+          <div class="screenshot-annotation" style="top: 52%; left: 3%;">Currently Helvetica — change to Playfair Display</div>
+          <div class="screenshot-annotation" style="top: 72%; left: 3%;">Currently Helvetica — change to Open Sans</div>
+        </div>
+        <div class="screenshot-caption" style="margin-top:4px;">Your current Text Theme settings. Both heading and body are Wix defaults. Click each dropdown to replace with the recommended fonts.</div>
+      </div>
+    </div>
+
+    <!-- LOGO -->
+    <div class="brand-block">
+      <h3>4. Logo Direction</h3>
+
+      <div class="callout callout-warn" style="margin-bottom:14px;">
+        <strong>Current state — no proper logo exists</strong>
+        The site uses a laptop image with "MINDSET OVER MATTER / CHRISTIAN LIFE COACHING" text displayed on the screen. This works as a hero image but cannot be used as a logo (too large, can't be used as favicon, won't work in emails or print). A real logo is needed before launch.
+      </div>
+
+      <div class="logo-dir">
+        <h4>Direction A — Clean Wordmark (simplest, fastest)</h4>
+        <div class="logo-lockup">
+          <div style="font-size:22px; font-weight:800; letter-spacing:1px; color:#1B3A5C; text-transform:uppercase;">MINDSET OVER MATTER</div>
+          <div style="font-size:11px; font-weight:600; letter-spacing:3px; color:#C9820A; text-transform:uppercase; margin-top:4px;">CHRISTIAN LIFE COACHING</div>
+        </div>
+        <p style="font-size:13px; color:var(--muted); margin-top:10px; line-height:1.6;">Text only, no icon. The brand name is strong enough to stand alone. Use Playfair Display or Montserrat Bold for "MINDSET OVER MATTER" and Open Sans for the tagline. Works at any size, any background. Easiest for a designer to execute and easiest for Troy to use in all contexts.</p>
+        <div class="copy-suggestion" style="margin-top:10px;">
+          <div class="copy-label">What to tell a designer</div>
+          <blockquote>Clean wordmark logo, no icon. "MINDSET OVER MATTER" in a bold serif or strong sans-serif — uppercase, letter-spaced. "Christian Life Coaching" as a smaller tagline beneath in a lighter weight. Colors from the chosen palette. Deliver in SVG, PNG (transparent background), and a white version for dark backgrounds.</blockquote>
+        </div>
+      </div>
+
+      <div class="logo-dir">
+        <h4>Direction B — Wordmark + Symbol</h4>
+        <div class="logo-lockup">
+          <div style="display:flex; align-items:center; justify-content:center; gap:14px;">
+            <div style="width:44px; height:44px; border:3px solid #1B3A5C; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <div style="font-size:22px; color:#1B3A5C; font-weight:700; line-height:1;">↑</div>
+            </div>
+            <div style="text-align:left;">
+              <div style="font-size:18px; font-weight:800; letter-spacing:.5px; color:#1B3A5C; text-transform:uppercase;">MINDSET OVER MATTER</div>
+              <div style="font-size:10px; font-weight:600; letter-spacing:2.5px; color:#C9820A; text-transform:uppercase; margin-top:2px;">CHRISTIAN LIFE COACHING</div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--muted); margin-top:10px; line-height:1.6;">A simple geometric icon — a cross, an upward arrow, or a path motif — paired with the wordmark. The icon can be used alone as a favicon or profile image. More complex to execute well; requires a designer. The risk is a generic-looking icon if not done carefully.</p>
+        <div class="copy-suggestion" style="margin-top:10px;">
+          <div class="copy-label">What to tell a designer</div>
+          <blockquote>Logo with a simple icon + wordmark. The icon should suggest forward movement and faith — consider a clean geometric cross with an upward arrow integrated, or an abstract path/road symbol. Not literal. Not clipart. "MINDSET OVER MATTER" wordmark with "Christian Life Coaching" tagline. Colors from the chosen palette. Deliver in SVG, PNG (transparent), and a white version.</blockquote>
+        </div>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>Recommendation</strong>
+        Start with Direction A — a clean wordmark. It can be created quickly, costs less, and works in every context. Direction B can be added later once the brand feels established and Troy has a clearer sense of what visual symbol feels right to him personally.
+      </div>
+    </div>
+
+    <!-- PHOTOGRAPHY -->
+    <div class="brand-block">
+      <h3>5. Photography Direction</h3>
+
+      <div class="callout callout-green" style="margin-bottom:14px;">
+        <strong>Current state — one good photo exists</strong>
+        The audit found one real photo: Troy and Carrie outdoors, Troy in a black polo. It's warm, natural, and usable. This is a good starting point. More photos are needed but not a blocker for launch.
+      </div>
+
+      <h4>Style to aim for in new photos</h4>
+      <div class="steps" style="margin-top:8px;">
+        <div class="step">
+          <div class="step-num" style="background:#FEF3C7; color:#92400E;">📸</div>
+          <div class="step-body">
+            <strong>Setting: natural, not studio</strong>
+            <p>Outdoors — a porch, a park, a quiet outdoor space. Or indoors in a warm room with natural light. Avoid plain white backdrop studio shots — they feel cold and corporate, which is the opposite of Troy's brand.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:#FEF3C7; color:#92400E;">📸</div>
+          <div class="step-body">
+            <strong>Clothing: clean casual — what Troy already wears</strong>
+            <p>The black polo from the current photo is exactly right. Clean, neat, unpretentious. Not a suit. Not a hoodie. The goal is "the kind of person you'd trust with something real."</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:#FEF3C7; color:#92400E;">📸</div>
+          <div class="step-body">
+            <strong>Expression: approachable, not performative</strong>
+            <p>A natural smile — not a "I'm a professional" forced grin. Think: someone who just said something you needed to hear, and is waiting to see if you're ready to hear more. Warm eye contact. Relaxed posture.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:#FEF3C7; color:#92400E;">📸</div>
+          <div class="step-body">
+            <strong>Shots to prioritize</strong>
+            <p>1. Headshot — Troy alone, from the chest up, for use as profile photo and About page.<br/>
+            2. Mid-shot — Troy from the waist up, slight candid/natural look, for hero section.<br/>
+            3. Action — Troy appearing to be in conversation (phone call, across a table, looking at notes). For use illustrating coaching sessions.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:#FEF3C7; color:#92400E;">📸</div>
+          <div class="step-body">
+            <strong>Stock photos if custom isn't available at launch</strong>
+            <p>Use Unsplash (free) or Pexels (free). Search: "man praying outdoors," "person looking out window," "walking path sunrise," "open Bible natural light." Avoid: generic handshake photos, cheesy "goal" imagery, overly posed diversity stock photos. Pick photos that feel like <em>Troy's world</em> — grounded, real, Midwestern.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRAND VOICE -->
+    <div class="brand-block">
+      <h3>6. Brand Voice Summary</h3>
+
+      <div class="voice-grid">
+        <div class="voice-col do">
+          <h4>✓ The brand sounds like this</h4>
+          <div class="voice-item do-item">"I've been there — and I made it out."</div>
+          <div class="voice-item do-item">"You don't have to figure this out alone."</div>
+          <div class="voice-item do-item">"God has a path for you. Let's find it."</div>
+          <div class="voice-item do-item">"Here's what I'd tell you if we were talking face to face."</div>
+          <div class="voice-item do-item">"You are needed. You are loved."</div>
+        </div>
+        <div class="voice-col dont">
+          <h4>✗ The brand does NOT sound like this</h4>
+          <div class="voice-item dont-item">"Unlock your God-given potential today!"</div>
+          <div class="voice-item dont-item">"Transform your life with our proven coaching framework."</div>
+          <div class="voice-item dont-item">"Are you walking in your anointing?"</div>
+          <div class="voice-item dont-item">"Limited spots available — sign up now!"</div>
+          <div class="voice-item dont-item">"Our proprietary methodology delivers results."</div>
+        </div>
+      </div>
+
+      <h4 style="margin-top:16px;">3 words that describe the brand voice</h4>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+        <span class="badge" style="background:#E8F6EE; color:#14532D; font-size:13px; padding:6px 16px; border-radius:20px; font-weight:700;">Grounded</span>
+        <span class="badge" style="background:#E8F6EE; color:#14532D; font-size:13px; padding:6px 16px; border-radius:20px; font-weight:700;">Honest</span>
+        <span class="badge" style="background:#E8F6EE; color:#14532D; font-size:13px; padding:6px 16px; border-radius:20px; font-weight:700;">Faithful</span>
+      </div>
+
+      <h4>3 words it should NEVER sound like</h4>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+        <span class="badge" style="background:#FEF2F2; color:#991B1B; font-size:13px; padding:6px 16px; border-radius:20px; font-weight:700;">Preachy</span>
+        <span class="badge" style="background:#FEF2F2; color:#991B1B; font-size:13px; padding:6px 16px; border-radius:20px; font-weight:700;">Corporate</span>
+        <span class="badge" style="background:#FEF2F2; color:#991B1B; font-size:13px; padding:6px 16px; border-radius:20px; font-weight:700;">Hyped</span>
+      </div>
+
+      <h4>How the voice shifts across contexts</h4>
+      <table class="data-table">
+        <tr><th>Context</th><th>Tone shift</th><th>Example</th></tr>
+        <tr>
+          <td>Landing page / public site</td>
+          <td>Warm but intentional — building trust with a stranger</td>
+          <td>"You already know something has to change. That's why you're here."</td>
+        </tr>
+        <tr>
+          <td>Inside the member community</td>
+          <td>More casual, personal — talking to people who've already said yes</td>
+          <td>"Good morning. Here's what I've been sitting with this week..."</td>
+        </tr>
+        <tr>
+          <td>Automated emails</td>
+          <td>Direct and personal — like a text from a friend, not a newsletter</td>
+          <td>"I'm glad you're here. Let me show you where to start."</td>
+        </tr>
+        <tr>
+          <td>Social media</td>
+          <td>Most casual — observations, questions, short stories from daily life</td>
+          <td>"Worked a 12-hour shift today and still had someone ask me to pray with them. Never a dull day."</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- DESIGNER BRIEF -->
+    <div class="brand-block">
+      <h3>7. What to Tell Your Designer</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">When Troy is ready to commission a logo, share this brief:</p>
+      <div class="designer-brief">
+        <h4>Design Brief — Mindset Over Matter</h4>
+        <p><strong>Project:</strong> Logo for a Christian life coaching brand. The coach's name is Troy. The brand name is "Mindset Over Matter."</p>
+        <p style="margin-top:10px;"><strong>Who it's for:</strong> Adults (primarily 30–55) who are motivated, believe in God, and feel stuck between where they are and where they're supposed to be. Not exclusively church-going — faith-based but accessible.</p>
+        <p style="margin-top:10px;"><strong>Brand personality:</strong> Grounded, honest, warm, faithful. Think: a trusted friend who coaches. NOT corporate, NOT overly religious, NOT salesy.</p>
+        <p style="margin-top:10px;"><strong>Direction preference:</strong> [A: Clean wordmark only — no icon] or [B: Simple wordmark + symbol — cross/arrow/path motif, geometric, not literal]</p>
+        <p style="margin-top:10px;"><strong>Colors:</strong> [Insert chosen palette hex values here]</p>
+        <p style="margin-top:10px;"><strong>Fonts to consider:</strong> Playfair Display (display) + Open Sans (body) — or designer's suggestion in same spirit</p>
+        <p style="margin-top:10px;"><strong>Deliverables needed:</strong> SVG source file, PNG with transparent background (minimum 1000px wide), PNG on white background, white version for dark backgrounds, favicon (32×32 ICO or PNG)</p>
+      </div>
+    </div>
+
+  </div><!-- /brand-body -->
+</div><!-- /brand-outer -->
+
+<div class="content">
+
+<!-- ══════════════════════════════════════════
+     PHASE 1: INSTALL MISSING APPS
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase1">
+  <div class="phase-header">
+    <div class="phase-num">1</div>
+    <div>
+      <div class="phase-title">Install the 2 Missing Apps</div>
+      <div class="phase-subtitle">~10 minutes</div>
+    </div>
+    <span class="phase-status-badge psb-partial">Partially Done</span>
+  </div>
+
+  <div class="phase-status-box">
+    <div class="psb-section">
+      <h5>Already Done</h5>
+      <ul>
+        <li class="done">Wix Members Area — installed</li>
+        <li class="done">Wix Pricing Plans — installed</li>
+        <li class="done">Wix Bookings — installed</li>
+        <li class="done">Wix Video — installed (needs setup)</li>
+        <li class="done">Wix Forms — installed</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Still Needed</h5>
+      <ul>
+        <li class="todo">Wix Online Programs — NOT installed</li>
+        <li class="todo">Wix Events — NOT installed</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Why These Two</h5>
+      <p style="font-size:12.5px; color:var(--muted);">Online Programs delivers your video course library (Tier 1). Events handles your 4x/month group coaching sessions (Tier 2). Without them, those tiers can't work.</p>
+    </div>
+  </div>
+
+  <div class="first-action">
+    <strong>First Action</strong>
+    Go to manage.wix.com → left sidebar → App Market → search "Online Programs" → Add to Site. Then repeat for "Wix Events."
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Log in at manage.wix.com</strong>
+        <p>This is your dashboard — the control panel behind your site. Most setup happens here, not in the visual editor.</p>
+        <div class="ui-mock">
+          <div class="mock-label">manage.wix.com — Left Sidebar (approximate)</div>
+          <div class="mock-window">
+            <div class="mock-sidebar">
+              <div class="mock-sidebar-left">
+                <div class="mock-sidebar-section">Main</div>
+                <div class="mock-sidebar-item normal">🏠 Home</div>
+                <div class="mock-sidebar-item normal">📊 Analytics</div>
+                <div class="mock-sidebar-item normal">👥 Members</div>
+                <div class="mock-sidebar-section">Apps</div>
+                <div class="mock-sidebar-item active">🧩 App Market</div>
+                <div class="mock-sidebar-item normal">📅 Bookings</div>
+                <div class="mock-sidebar-item normal">💳 Pricing Plans</div>
+                <div class="mock-sidebar-section">Finance</div>
+                <div class="mock-sidebar-item normal">💰 Payments</div>
+              </div>
+              <div class="mock-sidebar-right">
+                <div class="mock-highlight">Click "App Market" here</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Install: Wix Online Programs</strong>
+        <div class="screenshot-wrap" style="margin-bottom:12px;">
+          <img src="screenshots/phase1_app_market.png" alt="Wix App Market page" />
+          <div class="screenshot-annotation" style="top: 12%; right: 3%;">Search for apps here</div>
+          <div class="screenshot-caption">The Wix App Market — this is where you'll search for and install Wix Online Programs and Wix Events.</div>
+        </div>
+        <p>In the App Market, search <strong>"Online Programs"</strong>. This is Wix's course delivery system — it hosts your video lessons in a structured, module-based format. It was previously called "Wix Courses" — either name may appear in results.</p>
+        <div class="app-card">
+          <div class="app-icon" style="background:#FFF8E8;">🎬</div>
+          <div>
+            <div class="app-name">Wix Online Programs</div>
+            <div class="app-desc">Video lessons, course modules, and content delivery — needed for Tier 1</div>
+          </div>
+          <div class="app-add"><span class="mock-btn blue">+ Add to Site</span></div>
+        </div>
+        <div class="callout callout-tip">
+          <strong>Note on Wix Video vs. Online Programs</strong>
+          You already have "Wix Video" installed, which is a raw video channel. "Wix Online Programs" is different — it organizes videos into structured lessons with modules, progress tracking, and access control. You need both. Wix Video is the storage; Online Programs is the delivery.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Install: Wix Events</strong>
+        <p>Search <strong>"Wix Events"</strong>. This handles scheduling your group coaching sessions for Tier 2 — you create a recurring event each month, add your Zoom link, and Tier 2 members register from your site.</p>
+        <div class="app-card">
+          <div class="app-icon" style="background:#FEF2F2;">🗓️</div>
+          <div>
+            <div class="app-name">Wix Events</div>
+            <div class="app-desc">Schedule and manage group coaching sessions — needed for Tier 2</div>
+          </div>
+          <div class="app-add"><span class="mock-btn blue">+ Add to Site</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step step-done">
+      <div class="step-num">✓</div>
+      <div class="step-body">
+        <strong>Already Done: Members Area, Pricing Plans, Bookings, Video, Forms</strong>
+        <p>These are confirmed installed on your site. No action needed in this phase.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 2: FINISH PAYMENTS SETUP
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase2">
+  <div class="phase-header">
+    <div class="phase-num">2</div>
+    <div>
+      <div class="phase-title">Finish Payment Setup</div>
+      <div class="phase-subtitle">~15 minutes — have your bank account info ready</div>
+    </div>
+    <span class="phase-status-badge psb-partial">Partially Done</span>
+  </div>
+
+  <div class="phase-status-box">
+    <div class="psb-section">
+      <h5>Already Done</h5>
+      <ul>
+        <li class="done">Wix Payments account created</li>
+        <li class="done">Payment processing activated</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Still Needed</h5>
+      <ul>
+        <li class="todo">Bank payout details not entered</li>
+        <li class="todo">Without this, payments are accepted but money cannot be deposited to you</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>What to Have Ready</h5>
+      <p style="font-size:12.5px; color:var(--muted);">Your bank routing number and account number. Also your SSN for IRS verification — Wix requires this for all US sellers. It's standard and secure.</p>
+    </div>
+  </div>
+
+  <div class="first-action">
+    <strong>First Action</strong>
+    Go to manage.wix.com → left sidebar → Finance → Accept Payments. Look for "Wix Payments" with a status of "Setup incomplete" or an orange/yellow indicator. Click it to resume setup.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Go to Payment Settings</strong>
+        <div class="path">manage.wix.com → Finance → Accept Payments</div>
+        <p>Alternatively: <span class="path">Settings → Accept Payments</span> — Wix moves this around. If you don't see it, use the search bar at the top of your dashboard and type "payments."</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Complete Wix Payments payout setup</strong>
+        <p>You'll see your Wix Payments account listed. It may show an "Action Required" or "Incomplete" status. Click on it and follow the prompts to enter your bank account details.</p>
+        <div class="callout callout-warn">
+          <strong>Don't skip the bank account step</strong>
+          Until your bank account is connected, Wix will hold any payments you receive. They won't be lost, but you won't be able to withdraw them until setup is complete.
+        </div>
+      </div>
+    </div>
+
+    <div class="step step-done">
+      <div class="step-num">✓</div>
+      <div class="step-body">
+        <strong>Plan tier confirmed — subscription billing is active</strong>
+        <div class="callout callout-green">
+          <strong>Business plan confirmed ($468/year)</strong>
+          Your site is on the Wix Business plan. This tier fully supports recurring subscription billing for Pricing Plans and transaction processing for Bookings. The "Upgrade Site" prompts visible in your dashboard are Wix upselling higher tiers — they are not blocking you from accepting payments. No action needed here.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 3: FIX PRICING PLANS
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase3">
+  <div class="phase-header">
+    <div class="phase-num">3</div>
+    <div>
+      <div class="phase-title">Complete Your Pricing Plan Setup</div>
+      <div class="phase-subtitle">~20 minutes — add descriptions and confirm Advanced plan structure</div>
+    </div>
+    <span class="phase-status-badge psb-partial">Partially Done</span>
+  </div>
+
+  <div class="phase-status-box">
+    <div class="psb-section">
+      <h5>Already Done</h5>
+      <ul>
+        <li class="done">3 plans created with real names</li>
+        <li class="done">Prices entered</li>
+        <li class="done">Plan logic is correct (Tier 1/2/3 structure)</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Still Needed</h5>
+      <ul>
+        <li class="todo">Add descriptions to all 3 plans</li>
+        <li class="todo">Consider adjusting Intermediate price ($50 is below recommended range)</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Your Plans as Reviewed</h5>
+      <p style="font-size:12.5px; color:var(--muted);">Basic $30/mo · Intermediate $50/mo · Advanced $150/week for 4 weeks ($600 total — premium 1:1 coaching engagement)</p>
+    </div>
+  </div>
+
+  <div class="first-action">
+    <strong>First Action</strong>
+    Go to manage.wix.com → Pricing Plans. Review each plan's description field — all 3 are currently blank. Start with the Advanced plan: confirm the structure ($150/week · Valid for 4 weeks) is displaying correctly to visitors, then add the description copy below.
+  </div>
+
+  <div class="callout callout-green">
+    <strong>Advanced plan structure is correct — $150/week · 4 weeks · $600 total</strong>
+    Your Advanced plan is intentionally set to weekly billing for a 4-week coaching engagement. Clients commit to a full month of private 1:1 coaching with Troy at $150/week. Wix will stop charging automatically after the 4-week duration. This is your premium tier — the most intensive, personal offering on the site.
+  </div>
+
+  <div class="screenshot-wrap" style="max-width:680px; margin: 16px auto;">
+    <img src="screenshots/phase3_plans_frontend.png" alt="Plans & Pricing page showing Advanced plan at $150 every week" />
+    <div class="screenshot-annotation" style="top: 32%; right: 4%;">Advanced: $150/week · 4-week engagement</div>
+    <div class="screenshot-caption">What visitors see on the Plans &amp; Pricing page. The Advanced plan shows "$150 / Every week" — confirm this language is clear to visitors, and add a description so they understand it's a 4-week commitment ($600 total).</div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Navigate to Pricing Plans</strong>
+        <div class="path">manage.wix.com → Pricing Plans</div>
+        <p>You'll see your 3 plans: Basic, Intermediate, Advanced — all Active. The Advanced plan correctly shows $150.00/every week with "Valid for 4 weeks." Click into any plan to add or edit its description.</p>
+        <div class="screenshot-wrap" style="margin-top:12px;">
+          <img src="screenshots/phase3_plans_admin.png" alt="Wix Pricing Plans admin dashboard showing all 3 plans" />
+          <div class="screenshot-annotation" style="top: 36%; left: 3%;">Advanced: $150/week · Valid for 4 weeks ✓</div>
+          <div class="screenshot-caption">Your Pricing Plans dashboard. All 3 plans are active. The Advanced plan correctly shows $150.00/every week with a 4-week duration — this is intentional.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Confirm the Advanced plan structure with visitors in mind</strong>
+        <p>Your Advanced plan is set up as a <strong>4-week coaching engagement at $150/week ($600 total)</strong>. Wix will bill the client each week and stop automatically at the end of week 4. Before launch, verify two things:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Duration shows "Valid for 4 weeks"</strong> — confirms the billing stops after week 4</li>
+          <li><strong>Description field is filled in</strong> — visitors need to understand what they're committing to before they click Select</li>
+        </ul>
+        <div class="callout callout-tip">
+          <strong>Why the description matters on this plan especially</strong>
+          "$150 / Every week" can read as alarming at first glance if there's no context. A clear description — "4-week intensive coaching engagement, billed at $150/week" — turns a confusing number into a confident purchase. Use the copy in Step 3 below.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Review and update plan descriptions using your own words</strong>
+        <p>Each plan has a short description. Here's what you wrote originally and suggested updates:</p>
+
+        <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">Full copy for each plan is in the <strong><a href="#copy-ref" style="color:var(--steel);">Copy &amp; Content Reference</a></strong> section above. Quick version for each description field:</p>
+
+        <div class="copy-suggestion">
+          <div class="copy-label">Plan 1: Basic — paste into the Description field</div>
+          <blockquote>Unlimited access to Troy's full video lesson library and podcast episodes — organized by topic, available any time. Watch at your own pace, on your schedule. New content added regularly.</blockquote>
+          <div class="copy-source">Your original: "Unlimited access to short videos" — good start, this expands it.</div>
+        </div>
+
+        <div class="copy-suggestion">
+          <div class="copy-label">Plan 2: Intermediate — paste into the Description field</div>
+          <blockquote>Everything in the Basic plan, plus four live group coaching sessions with Troy every month. Real conversations, real questions, real progress — with a small group of people walking the same road.</blockquote>
+          <div class="copy-source">Your original: "4 group coaching sessions, plus access to short videos" — accurate but brief. This version leads with what the member experiences.</div>
+        </div>
+
+        <div class="copy-suggestion">
+          <div class="copy-label">Plan 3: Advanced — paste into the Description field</div>
+          <blockquote>Four weeks of private 1:1 coaching with Troy — the most intensive, personal coaching offered. Each week you and Troy meet one-on-one for a focused session. No group, no script. You bring what's on your heart and we go from there. Billed at $150/week for 4 weeks ($600 total). Scheduled online at times that work for you.</blockquote>
+          <div class="copy-source">This makes the commitment clear upfront — 4 weeks, $150/week, $600 total. Visitors who self-select into this plan know exactly what they're signing up for.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Consider adjusting plan names and the Intermediate price</strong>
+        <p>Your current names (Basic / Intermediate / Advanced) are functional. Some coaches use names that feel more personal. Optional ideas:</p>
+        <table class="data-table" style="margin-top:10px;">
+          <tr><th>Current</th><th>Optional rename</th><th>Price note</th></tr>
+          <tr><td>Basic</td><td>"Foundation" or keep Basic</td><td>$30/mo — in range</td></tr>
+          <tr><td>Intermediate</td><td>"Guided Growth" or keep Intermediate</td><td>$50/mo — below recommended $67–97. Consider $67 or $77.</td></tr>
+          <tr><td>Advanced</td><td>"Private Coaching" or "1:1 Intensive"</td><td>$150/week × 4 weeks ($600 total) — premium positioning</td></tr>
+        </table>
+        <p style="font-size:12.5px; color:var(--muted); margin-top:8px;">You don't have to change the names. If "Basic / Intermediate / Advanced" feel right to you, keep them. The price on Intermediate is the only substantive consideration — $67/mo instead of $50 means 25% more revenue per member, and it's still well below what you're delivering in value.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 4: BUILD VIDEO LIBRARY
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase4">
+  <div class="phase-header">
+    <div class="phase-num">4</div>
+    <div>
+      <div class="phase-title">Build Your Video Library (Tier 1 Content)</div>
+      <div class="phase-subtitle">~1–2 hours setup; ongoing as you record content</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="phase-status-box">
+    <div class="psb-section">
+      <h5>Already Done</h5>
+      <ul>
+        <li class="done">Wix Video app — installed</li>
+        <li class="warn">Wix Online Programs — NOT installed yet (do Phase 1 first)</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Still Needed</h5>
+      <ul>
+        <li class="todo">Install Wix Online Programs (Phase 1)</li>
+        <li class="todo">Create first program/course</li>
+        <li class="todo">Add at least 1 module with 1 lesson</li>
+        <li class="todo">Gate the program to Basic plan and above</li>
+        <li class="todo">Upload or link first video</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Note on Content</h5>
+      <p style="font-size:12.5px; color:var(--muted);">You don't need 10 videos to launch. One solid video lesson is enough to open and tell early members "more coming." Launch lean, build momentum.</p>
+    </div>
+  </div>
+
+  <div class="first-action">
+    <strong>First Action</strong>
+    Complete Phase 1 first (install Wix Online Programs). Then: manage.wix.com → Online Programs → Create Program.
+  </div>
+
+  <div class="callout callout-tip">
+    <strong>Video hosting recommendation — use YouTube Unlisted</strong>
+    Upload your videos to YouTube and set them to <strong>Unlisted</strong>. Unlisted means: only people who have the link can view the video. It won't show up in search results or on your channel. Then paste the YouTube link into your Wix lesson. This keeps your Wix storage free and makes videos load faster.
+    <br/><br/>
+    <strong>Do NOT use "Private" on YouTube</strong> — Private videos can't be embedded in Wix. Unlisted is the right setting.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Navigate to Online Programs</strong>
+        <div class="path">manage.wix.com → Online Programs</div>
+        <p>If it doesn't appear in the left sidebar after installation, look under "Apps" in the sidebar or use the dashboard search bar and type "Online Programs."</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Create your first program</strong>
+        <p>Click <strong>+ Create Program</strong>. Give it a name. Suggested: <strong>"Mindset Over Matter — Video Library"</strong> or simply <strong>"Member Content Library."</strong></p>
+        <p>Set the program type to <strong>Self-paced</strong> (members can watch in any order, any time — no start/end date required).</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Add your first module and lesson</strong>
+        <p>Inside the program, create one module. A module is a category or section — for example: "Getting Started" or "Faith &amp; Mindset." Inside the module, create one lesson.</p>
+        <p>In the lesson editor, you can:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2;">
+          <li>Paste a YouTube Unlisted URL to embed a video</li>
+          <li>Add text content below the video</li>
+          <li>Attach downloadable files (PDFs, worksheets)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Gate the program to Pricing Plan holders</strong>
+        <p>This is the step that connects your content to your paywall. Inside the program settings, look for <strong>Access</strong> or <strong>Who can access this program?</strong></p>
+        <p>Set access to: <strong>Specific Pricing Plans</strong> → select "Basic," "Intermediate," and "Advanced" (all plan holders should be able to watch videos).</p>
+        <div class="callout callout-warn">
+          <strong>⚠ This step is critical and easy to miss</strong>
+          If you don't link your program to a Pricing Plan, it will be free to anyone — or it won't appear at all. Verify this setting before you publish.
+        </div>
+        <div class="ui-mock">
+          <div class="mock-label">Online Programs — Access Settings (approximate)</div>
+          <div class="mock-window">
+            <div class="mock-body">
+              <p style="font-size:12px; font-weight:700; color:var(--navy); margin-bottom:8px;">Who can access this program?</p>
+              <div style="font-size:12px; margin-bottom:6px;">
+                <label style="display:flex; align-items:center; gap:8px; cursor:default;">
+                  <span style="width:14px; height:14px; border-radius:50%; border:2px solid var(--steel); display:inline-block;"></span>
+                  Anyone (free — no plan required)
+                </label>
+              </div>
+              <div style="font-size:12px; margin-bottom:6px;">
+                <label style="display:flex; align-items:center; gap:8px; cursor:default;">
+                  <span style="width:14px; height:14px; border-radius:50%; background:var(--steel); display:inline-block;"></span>
+                  <strong>Pricing Plan holders</strong> ← select this
+                </label>
+              </div>
+              <div style="background:var(--sky); border-radius:6px; padding:10px; font-size:12px; margin-top:10px;">
+                Select plans: <span style="font-weight:700;">✅ Basic &nbsp; ✅ Intermediate &nbsp; ✅ Advanced</span>
+                <div class="mock-highlight" style="margin-top:8px;">Select all 3 plans here</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Also set up Wix Video for additional video content</strong>
+        <p>Your Wix Video app shows "Setup Required" with an action needed badge. Navigate to it and complete the setup — this creates a video channel on your site that can house additional videos outside of the structured program format.</p>
+        <div class="path">manage.wix.com → Video (in sidebar) → Complete Setup</div>
+        <p>You can use this for shorter clips, previews, or bonus content that's separate from the main course.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 5: GROUP COACHING SESSIONS
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase5">
+  <div class="phase-header">
+    <div class="phase-num">5</div>
+    <div>
+      <div class="phase-title">Set Up Group Coaching Sessions (Tier 2)</div>
+      <div class="phase-subtitle">~30 minutes + Zoom account needed</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="phase-status-box">
+    <div class="psb-section">
+      <h5>Already Done</h5>
+      <ul>
+        <li class="warn">Wix Events — not installed yet (do Phase 1 first)</li>
+        <li class="done">Intermediate plan created ($50/mo)</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Still Needed</h5>
+      <ul>
+        <li class="todo">Install Wix Events (Phase 1)</li>
+        <li class="todo">Create first group session event</li>
+        <li class="todo">Add Zoom/Google Meet link to event</li>
+        <li class="todo">Gate event to Intermediate plan holders</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Video Call Options</h5>
+      <p style="font-size:12.5px; color:var(--muted);">Google Meet is free with any Google account — no time limit for group calls. Zoom free tier has a 40-minute limit for 3+ people. Recommend Google Meet to start.</p>
+    </div>
+  </div>
+
+  <div class="first-action">
+    <strong>First Action</strong>
+    Install Wix Events (Phase 1). Then: manage.wix.com → Events → Create Event. Set date, add your Google Meet link, gate to Intermediate plan.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Get a reusable Google Meet link</strong>
+        <p>Go to <strong>meet.google.com</strong> and click <strong>"New meeting" → "Create a meeting for later."</strong> Copy the link — it looks like <code>meet.google.com/abc-defg-hij</code>. This link is permanent and reusable — you can use the same link for every group session.</p>
+        <div class="callout callout-tip">
+          <strong>Why Google Meet over Zoom?</strong>
+          Google Meet is completely free with no time limit for group calls. Zoom's free plan cuts off at 40 minutes when there are 3 or more people. For 4 group sessions a month, a 40-minute limit could be a real problem. Use Google Meet unless you already have Zoom Pro.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Navigate to Wix Events</strong>
+        <div class="path">manage.wix.com → Events → + Create Event</div>
+        <p>Fill in the event details:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Name:</strong> "Group Coaching Session — [Month]" (e.g., "Group Coaching Session — April")</li>
+          <li><strong>Date &amp; time:</strong> Your scheduled session day/time</li>
+          <li><strong>Location:</strong> "Online — Zoom/Google Meet" then paste your meeting link in the description</li>
+          <li><strong>Description:</strong> Brief note about what the session covers, e.g., "Live group coaching session with Troy. Bring your questions. This month's focus: [topic]."</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Gate the event to Intermediate plan holders</strong>
+        <p>In the event settings, find the <strong>Registration</strong> or <strong>Access</strong> section. Set it so only members with the "Intermediate" plan (or higher) can register. This prevents Basic members from accessing Tier 2 sessions.</p>
+        <div class="callout callout-verify">
+          <strong>⚠ Verify on screen</strong>
+          Wix Events' gating capability depends on your Wix plan tier. On lower Business plans, event gating to Pricing Plans may require an additional step or may work differently than expected. Test this before publishing.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Create 4 events for your first month</strong>
+        <p>Your Intermediate plan promises 4 group sessions per month. Create all 4 events for your first month before launch so new members can immediately see the schedule. You can always create future months later.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 6: 1:1 BOOKING
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase6">
+  <div class="phase-header">
+    <div class="phase-num">6</div>
+    <div>
+      <div class="phase-title">Set Up 1:1 Private Booking (Tier 3)</div>
+      <div class="phase-subtitle">~30 minutes — Wix Bookings is already installed</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="phase-status-box">
+    <div class="psb-section">
+      <h5>Already Done</h5>
+      <ul>
+        <li class="done">Wix Bookings — installed</li>
+        <li class="done">Book Online page exists (/book-online)</li>
+        <li class="done">Advanced plan created ($150/week · 4 weeks)</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Still Needed</h5>
+      <ul>
+        <li class="todo">Create a real bookable service</li>
+        <li class="todo">Set your availability</li>
+        <li class="todo">Add Zoom/Google Meet link to confirmation</li>
+        <li class="todo">Remove/replace 9 placeholder service cards</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Current State</h5>
+      <p style="font-size:12.5px; color:var(--muted);">Your Book Online page currently shows "Nothing to book right now. Check back soon." — Wix Bookings is installed, but no services have been created yet.</p>
+    </div>
+  </div>
+
+  <div class="screenshot-wrap" style="max-width:520px; margin: 14px auto;">
+    <img src="screenshots/phase6_book_online.png" alt="Book Online page showing nothing to book right now" />
+    <div class="screenshot-annotation" style="top: 22%; left: 50%; transform: translateX(-50%);">What visitors see now</div>
+    <div class="screenshot-caption">Your /book-online page as it appears today. Once you create a service in Phase 6, this page will show your real booking card instead.</div>
+  </div>
+
+  <div class="first-action">
+    <strong>First Action</strong>
+    manage.wix.com → Bookings → Services → + Add Service. Name it "Private Coaching Session." Set duration to 60 minutes, price to $150.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Navigate to Wix Bookings</strong>
+        <div class="path">manage.wix.com → Bookings → Services</div>
+        <p>You'll see the current state: placeholder services from the template. These will be replaced once you add your real service.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Create your Private Coaching Session service</strong>
+        <p>Click <strong>+ Add Service</strong> (or similar button) and fill in:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Name:</strong> "Private Coaching Session"</li>
+          <li><strong>Service type:</strong> Appointment (one client at a time)</li>
+          <li><strong>Duration:</strong> 60 minutes</li>
+          <li><strong>Price:</strong> $150</li>
+          <li><strong>Location:</strong> Online — Zoom / Google Meet</li>
+          <li><strong>Description:</strong> Suggested — see copy block below</li>
+        </ul>
+
+        <div class="copy-suggestion">
+          <div class="copy-label">Suggested description for Private Coaching Session</div>
+          <blockquote>A private 60-minute one-on-one coaching session with Troy. You set the agenda — we go where you need to go. Sessions held online via Zoom or Google Meet. After booking, you'll receive a confirmation with the call link and instructions.</blockquote>
+          <div class="copy-source">Adapt to your own voice as needed.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Set your availability</strong>
+        <p>Wix Bookings will ask you to define when you're available for sessions. You can:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li>Set specific days and hours (e.g., Tuesdays and Thursdays 6–9pm)</li>
+          <li>Or connect Google Calendar to sync your real availability</li>
+        </ul>
+        <p>Only add times you're genuinely available. If you're not sure yet, start with 2 time slots per week and adjust after your first few bookings.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Add your Zoom or Google Meet link to the confirmation email</strong>
+        <p>Wix Bookings automatically sends a confirmation email after someone books. Find the <strong>Email Notifications</strong> or <strong>Automated Messages</strong> setting in Bookings, and add your reusable Google Meet link to the confirmation message body.</p>
+        <div class="path">Bookings → Settings → Automated Messages → Booking Confirmed</div>
+        <p>Edit the template to include your call link, so clients know exactly how to join.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Delete the placeholder services</strong>
+        <p>Once your real "Private Coaching Session" is created, the template placeholder services (the 9 "Service name / $45" cards) should disappear. If any remain, delete them from <span class="path">Bookings → Services</span> by clicking the three-dot menu (⋯) next to each one and selecting Delete.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 7: MEMBER ACCOUNTS
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase7">
+  <div class="phase-header">
+    <div class="phase-num">7</div>
+    <div>
+      <div class="phase-title">Member Accounts</div>
+      <div class="phase-subtitle">Mostly done — minor cleanup only</div>
+    </div>
+    <span class="phase-status-badge psb-done">Done</span>
+  </div>
+
+  <div class="callout callout-green">
+    <strong>This phase is essentially complete</strong>
+    Wix Members Area is installed, member signup pages are auto-generated, and the paywall is functional. Members who buy a plan automatically get an account and are redirected to their content. No major setup needed here.
+  </div>
+
+  <div class="phase-status-box">
+    <div class="psb-section">
+      <h5>Already Working</h5>
+      <ul>
+        <li class="done">Member signup and login system</li>
+        <li class="done">My Subscriptions, My Orders, My Bookings pages</li>
+        <li class="done">Paywall page ("Get a pricing plan to access this page")</li>
+        <li class="done">Member profile page</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Optional Improvements</h5>
+      <ul>
+        <li class="todo">Customize the "Welcome" email new members receive</li>
+        <li class="todo">Add a member-only page with coaching resources</li>
+        <li class="todo">Test the signup flow yourself as a test account</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Note</h5>
+      <p style="font-size:12.5px; color:var(--muted);">The member-facing pages (My Subscriptions, Profile, etc.) use Wix's default design. They look clean and professional with no changes needed.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 8: POLISH HOME PAGE
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase8">
+  <div class="phase-header">
+    <div class="phase-num">8</div>
+    <div>
+      <div class="phase-title">Polish the Home Page</div>
+      <div class="phase-subtitle">~1–2 hours in the Wix Editor</div>
+    </div>
+    <span class="phase-status-badge psb-partial">Partially Done</span>
+  </div>
+
+  <div class="phase-status-box">
+    <div class="psb-section">
+      <h5>Already Done</h5>
+      <ul>
+        <li class="done">Hero section copy written</li>
+        <li class="done">About Me section complete with real photo</li>
+        <li class="done">Contact form working</li>
+        <li class="done">Custom laptop hero image</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Still Needed</h5>
+      <ul>
+        <li class="todo">Add a CTA button to the hero section</li>
+        <li class="todo">Fill or hide the empty Members gallery</li>
+        <li class="todo">Consider adding a "What You Get" or pricing preview section</li>
+        <li class="todo">Review mobile layout</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Biggest Win</h5>
+      <p style="font-size:12.5px; color:var(--muted);">Adding one CTA button ("See Plans" or "Get Started") to the hero section will immediately give visitors a clear next step. Right now there's no button — visitors have to scroll to find anything clickable.</p>
+    </div>
+  </div>
+
+  <div class="first-action">
+    <strong>First Action</strong>
+    Open the Wix Editor → click on the hero section → add a Button element below the "I CAN HELP!" text → label it "See Your Options" or "Get Started" → link it to your /plans-pricing page.
+  </div>
+
+  <div class="callout callout-green">
+    <strong>Troy — your About Me copy is exceptional. Keep it exactly as written.</strong>
+    Do not revise or "clean up" the About Me section. It is personal, honest, and authentically yours. Visitors will connect with it. The writing is the product. Leave it alone.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Add a CTA button to the hero section</strong>
+        <p>Open your Wix Editor (click "Edit Site" from manage.wix.com). Click on the hero section at the top of your page. Add a <strong>Button</strong> element below the "I CAN HELP!" text.</p>
+        <p>Button settings:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Label:</strong> "See Your Options" or "Get Started" or "View Plans"</li>
+          <li><strong>Link to:</strong> /plans-pricing (your existing Plans &amp; Pricing page)</li>
+          <li><strong>Style:</strong> Match your site's existing button style — light or contrasting color</li>
+        </ul>
+
+        <div class="copy-suggestion">
+          <div class="copy-label">Your existing hero copy (verbatim — keep this)</div>
+          <blockquote>"I GET IT!<br/>Life throws plenty of curve balls. Most of the time, we know the answers that we are looking for. Sometimes though, the path becomes a little cloudy, and we lose our way. Sometimes we might even be a little 'unclear' and stuck.<br/><br/>I'VE BEEN THERE!<br/>The world can be pretty rough, and it teaches us to 'suppress and cover.' But we are not from this world! You will never truly heal by doing it on your own...But where's God?<br/><br/>I CAN HELP!"</blockquote>
+          <div class="copy-source">This copy is your voice and it works. Add the button immediately after "I CAN HELP!" — that's the natural moment to act.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Remove or fill the empty Members gallery</strong>
+        <p>Below your About Me section, there is a blank gallery placeholder with the Wix default text: <em>"Add your images, video and text. Start adding media to this gallery. Click Manage Media to get started."</em></p>
+        <p>Options:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Hide it for now</strong> — Right-click the section in the editor → "Hide on all pages." This is the fastest fix. Add photos or video thumbnails here later.</li>
+          <li><strong>Replace it with a text section</strong> — Add a simple text block that previews what members get (e.g., "What's Inside the Membership" with 3 bullet points).</li>
+        </ul>
+        <p>Either option is better than the blank placeholder. Visitors will wonder if the site is unfinished if they see a Wix prompt about "Manage Media."</p>
+        <div class="screenshot-wrap" style="margin-top:12px; max-width:620px;">
+          <img src="screenshots/phase8_home_members.png" alt="Home page showing empty Members section and Contact form" />
+          <div class="screenshot-annotation" style="top: 6%; left: 50%; transform: translateX(-50%);">Empty Members section — needs to be filled or hidden</div>
+          <div class="screenshot-caption">Current state of your home page below the About Me section. The "Members" heading with no content beneath it signals an unfinished site to visitors.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Consider adding a "What You Get" section</strong>
+        <p>Between the About Me and the Contact form, consider a 3-column section (Basic / Intermediate / Advanced) summarizing what each tier includes. This primes visitors before they hit the Plans &amp; Pricing page.</p>
+        <p>Suggested content for each column using your tier structure:</p>
+
+        <div class="copy-suggestion">
+          <div class="copy-label">Suggested "What You Get" section (draft copy)</div>
+          <blockquote>
+            <strong>Basic — $30/month</strong><br/>
+            Video lessons and podcast episodes in your member library. Watch at your own pace, on your schedule.<br/><br/>
+            <strong>Intermediate — $[price]/month</strong><br/>
+            Everything in Basic, plus 4 live group coaching sessions with Troy each month. Real conversations. Real guidance.<br/><br/>
+            <strong>Advanced — $150/week (4 weeks)</strong><br/>
+            The most intensive option: four weeks of private 1:1 coaching with Troy, focused entirely on you. Weekly sessions, weekly progress. $600 total.
+          </blockquote>
+          <div class="copy-source">Draft only — adapt to your voice. This goes on the home page as a preview, not a replacement for your Plans page.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Check the mobile layout</strong>
+        <p>In the Wix Editor, switch to mobile view (phone icon at the top of the editor). Scroll through your page and make sure:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li>Hero text is readable (not cut off or tiny)</li>
+          <li>Photo of you and Carrie looks good</li>
+          <li>The new CTA button is visible and tappable</li>
+          <li>Nothing is overlapping</li>
+        </ul>
+        <p>Most of your visitors will be on their phones — this check matters.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 9: AUTOMATED EMAILS
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase9">
+  <div class="phase-header">
+    <div class="phase-num">9</div>
+    <div>
+      <div class="phase-title">Set Up Automated Emails</div>
+      <div class="phase-subtitle">~30–45 minutes — makes a big impression on new members</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="phase-status-box">
+    <div class="psb-section">
+      <h5>Already Done</h5>
+      <ul>
+        <li class="done">Contact form is active (manual email responses)</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Minimum to Set Up</h5>
+      <ul>
+        <li class="todo">Welcome email when someone joins a plan</li>
+        <li class="todo">Booking confirmation for private sessions</li>
+      </ul>
+    </div>
+    <div class="psb-section">
+      <h5>Nice to Add Later</h5>
+      <ul>
+        <li class="todo">Payment receipt (usually auto-handled by Wix)</li>
+        <li class="todo">Plan renewal reminder (Wix may do this automatically)</li>
+        <li class="todo">Group session reminder (day before event)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="first-action">
+    <strong>First Action</strong>
+    manage.wix.com → Automations (in left sidebar) → + Create Automation. Select trigger: "Plan purchased." Set action: Send email. Write your welcome message.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Navigate to Wix Automations</strong>
+        <div class="path">manage.wix.com → Automations</div>
+        <p>Wix Automations is the tool that sends emails automatically based on what visitors do (buy a plan, book a session, etc.).</p>
+        <div class="screenshot-wrap" style="margin-top:12px;">
+          <img src="screenshots/phase9_automations.png" alt="Wix Automations dashboard showing no automations created yet" />
+          <div class="screenshot-annotation" style="bottom: 30%; left: 50%; transform: translateX(-50%);">Click "Create Automation" to start</div>
+          <div class="screenshot-caption">Your Automations dashboard today — no automations set up yet. This is where you'll build the welcome email sequence.</div>
+        </div>
+        <div class="callout callout-verify">
+          <strong>⚠ Verify location on screen</strong>
+          "Automations" may appear in the left sidebar directly, or under "Marketing" or "Email Marketing." Use the dashboard search bar and type "automations" if you can't find it.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Create the 3-email Welcome Sequence</strong>
+        <p>Set up three automations — one for each email in the sequence. All use the same trigger: <strong>Pricing Plan — Plan purchased.</strong> What changes is the delay between purchase and send.</p>
+
+        <div class="copy-suggestion" style="margin-top:12px;">
+          <div class="copy-label">Email 1 of 3 — Send immediately · Subject: "Welcome to Mindset Over Matter — I'm glad you're here."</div>
+          <blockquote>
+            Hi [First Name],<br/><br/>
+            I'm Troy, and I mean it when I say I'm glad you're here.<br/><br/>
+            You just took a real step. Whatever brought you to this point, the fact that you showed up says something about you.<br/><br/>
+            Here's where to start:<br/>
+            [Button or link — "Go to your member area"]<br/><br/>
+            If you have a question about anything, hit reply. I read every message myself.<br/><br/>
+            Talk soon,<br/>
+            Troy<br/>
+            Mindset Over Matter
+          </blockquote>
+          <div class="copy-source">Settings: Trigger = Plan purchased · Delay = 0 (send immediately) · Action = Send email</div>
+        </div>
+
+        <div class="copy-suggestion" style="margin-top:10px;">
+          <div class="copy-label">Email 2 of 3 — Send 3 days after purchase · Subject: "How's it going so far?"</div>
+          <blockquote>
+            Hi [First Name],<br/><br/>
+            Just checking in. You've been a member for a few days now -- did you get a chance to look around?<br/><br/>
+            If you haven't started yet, that's okay. The library isn't going anywhere. But if you're not sure where to begin, start here:<br/>
+            [Link to first video lesson]<br/><br/>
+            Ten minutes. That's all. See what you think.<br/><br/>
+            And if something's not working or you have a question, just reply to this email. I'll get back to you.<br/><br/>
+            Troy
+          </blockquote>
+          <div class="copy-source">Settings: Trigger = Plan purchased · Delay = 3 days · Action = Send email</div>
+        </div>
+
+        <div class="copy-suggestion" style="margin-top:10px;">
+          <div class="copy-label">Email 3 of 3 — Send 7 days after purchase · Subject: "One week in — honest question"</div>
+          <blockquote>
+            Hi [First Name],<br/><br/>
+            You've been here a week. I want to make sure this is actually working for you.<br/><br/>
+            If the content is hitting, I'm glad. Keep going.<br/><br/>
+            If you're feeling like you'd benefit from more direct conversation -- ask me a question, get a real answer -- that's what the group coaching sessions are for. [Intermediate plan holders: your next session is [date].] [Basic plan holders: if you want to add group coaching, you can upgrade any time in My Subscriptions.]<br/><br/>
+            And if you're ready to go deeper, private 1:1 coaching is available — four weeks of focused, one-on-one work with me at $150/week. You can learn more at [link to Plans page].<br/><br/>
+            Either way, I'm glad you're here. Keep going.<br/><br/>
+            Troy
+          </blockquote>
+          <div class="copy-source">Settings: Trigger = Plan purchased · Delay = 7 days · Action = Send email · Note: Wix Automations allows you to set conditions so Intermediate members see different text than Basic members — or keep one version that covers both.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Customize the booking confirmation email</strong>
+        <p>Wix Bookings sends a confirmation automatically after someone books a private session. You don't write this from scratch — just edit the default template to add your personal touch and Google Meet link.</p>
+        <div class="path">Bookings → Settings → Automated Messages → Booking Confirmed</div>
+
+        <div class="copy-suggestion" style="margin-top:10px;">
+          <div class="copy-label">Original: Wix default booking confirmation (generic template text)</div>
+          <blockquote>Your booking is confirmed. [Service name] on [Date] at [Time]. See you then.</blockquote>
+          <div class="copy-label" style="margin-top:10px;">Recommended: replace with this (adapt to your voice)</div>
+          <blockquote>
+            Hi [First Name],<br/><br/>
+            You're booked. Here are your details:<br/><br/>
+            Date: [Date]<br/>
+            Time: [Time]<br/>
+            How we'll meet: Google Meet (link below)<br/><br/>
+            [Google Meet link]<br/><br/>
+            Between now and then, think about what you most want to work through. You bring the agenda -- I'll meet you wherever you are.<br/><br/>
+            If anything comes up and you need to reschedule, just reply to this email.<br/><br/>
+            Looking forward to it,<br/>
+            Troy
+          </blockquote>
+          <div class="copy-source">Replace the Google Meet link with your real reusable link from meet.google.com. This is the same link every time.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Create a Group Session Reminder automation</strong>
+        <p>Set up one more automation to remind Tier 2 members the day before each group session.</p>
+        <ul style="margin:8px 0 8px 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li><strong>Trigger:</strong> Wix Events — "Event is approaching" (1 day before)</li>
+          <li><strong>Action:</strong> Send email to registered attendees</li>
+        </ul>
+        <div class="copy-suggestion">
+          <div class="copy-label">Original: none exists yet</div>
+          <blockquote>(No reminder currently configured)</blockquote>
+          <div class="copy-label" style="margin-top:10px;">Recommended: Group session reminder email</div>
+          <blockquote>
+            Subject: Your group coaching session is tomorrow<br/><br/>
+            Hi [First Name],<br/><br/>
+            Just a heads up -- your group coaching session with Troy is tomorrow at [Time].<br/><br/>
+            Join here: [Google Meet link]<br/><br/>
+            Come with whatever is on your mind. No prep required. See you there.<br/><br/>
+            Troy
+          </blockquote>
+          <div class="copy-source">Settings: Trigger = Event approaching · 1 day before · Send to: Registered attendees</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     PHASE 10: TEST & GO LIVE
+══════════════════════════════════════════ -->
+<div class="phase-block" id="phase10">
+  <div class="phase-header">
+    <div class="phase-num">10</div>
+    <div>
+      <div class="phase-title">Test Everything and Publish</div>
+      <div class="phase-subtitle">~1 hour — do not skip this</div>
+    </div>
+    <span class="phase-status-badge psb-todo">Not Started</span>
+  </div>
+
+  <div class="callout callout-warn">
+    <strong>Do this before you tell anyone the site is live</strong>
+    Run through every user flow yourself as a test account before sharing the URL. It's much easier to find problems before real customers do.
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Enable test/sandbox mode in Wix Payments</strong>
+        <p>Before running test purchases, turn on test mode in your payment settings. This lets you run fake transactions with a test credit card number without charging anything real.</p>
+        <div class="path">manage.wix.com → Finance → Accept Payments → Wix Payments → Test Mode</div>
+        <p>Wix provides test card numbers — use them to simulate a purchase.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Create a second test account and run through every flow</strong>
+        <p>Use a different email address (a Gmail or other address you own) to create a new member account on your site. Then:</p>
+        <ul style="margin:8px 0 0 16px; font-size:13px; color:var(--muted); line-height:2.2;">
+          <li>Buy the Basic plan with a test card → verify you can access the video library</li>
+          <li>Buy the Intermediate plan → verify you can register for a group session</li>
+          <li>Buy the Advanced plan (4-week, $150/week) → verify access is granted, weekly billing shows correctly, and you can schedule sessions</li>
+          <li>Check that welcome email arrived</li>
+          <li>Check that booking confirmation arrived</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Turn off test mode</strong>
+        <p>After all tests pass, go back to payment settings and turn off test mode. Real cards will now be charged. Do not forget this step.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Set SEO titles and descriptions for each page</strong>
+        <p>This takes 15 minutes and makes your site findable on Google. In the Wix Editor, click any page → <strong>Pages &amp; Menu</strong> → hover over a page → three dots (⋯) → <strong>SEO Basics</strong>. Fill in Title and Description for each page.</p>
+        <div class="callout callout-tip">
+          <strong>Why this matters</strong>
+          The page title is what appears in Google search results and in browser tabs. The description is the snippet of text under your link in search. Without these, Wix uses your page name — which is often just "Home" or "Plans-Pricing."
+        </div>
+
+        <table class="data-table" style="margin-top:10px;">
+          <tr><th>Page</th><th>Original (Wix default)</th><th>Recommended Title</th><th>Recommended Description</th></tr>
+          <tr>
+            <td>Home</td>
+            <td><em>"Home"</em></td>
+            <td>Mindset Over Matter | Christian Life Coaching</td>
+            <td>Faith-based life coaching with Troy. Video lessons, group coaching, and 1:1 sessions to help you close the gap between where you are and where God is calling you.</td>
+          </tr>
+          <tr>
+            <td>About</td>
+            <td><em>"About"</em></td>
+            <td>About Troy | Mindset Over Matter</td>
+            <td>Troy is a certified Christian life coach helping motivated believers find their path — through real conversation, honest guidance, and faith.</td>
+          </tr>
+          <tr>
+            <td>Plans &amp; Pricing</td>
+            <td><em>"Plans-Pricing"</em></td>
+            <td>Coaching Plans | Mindset Over Matter</td>
+            <td>Three options for every stage — on-demand video access, live monthly group coaching, or a private 1:1 session with Troy.</td>
+          </tr>
+          <tr>
+            <td>Book Online</td>
+            <td><em>"Book-Online"</em></td>
+            <td>Book a Private Session | Mindset Over Matter</td>
+            <td>Start your 4-week private coaching journey with Troy. One-on-one, weekly sessions, online — fully focused on you. $150/week for 4 weeks.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Pre-publish checklist</strong>
+        <ul class="checklist">
+          <li>Advanced plan description added (4-week engagement, $150/week, $600 total)</li>
+          <li>Wix Payments payout setup is complete (bank account connected)</li>
+          <li>Wix Business plan confirmed — subscription billing active ✓</li>
+          <li>Online Programs installed and content linked to Pricing Plans</li>
+          <li>Wix Events installed and first month's sessions created</li>
+          <li>Book Online page shows real "Private Coaching Session" service</li>
+          <li>Hero section has a CTA button linking to /plans-pricing</li>
+          <li>Empty Members gallery is hidden or filled</li>
+          <li>3-email welcome sequence automations are active</li>
+          <li>Group session reminder automation is active</li>
+          <li>Booking confirmation email customized with Google Meet link</li>
+          <li>SEO titles and descriptions set on all 4 pages</li>
+          <li>Test purchase completed — welcome email arrived, content accessible</li>
+          <li>Test mode turned OFF</li>
+          <li>Mobile layout checked on phone</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <strong>Publish the site</strong>
+        <p>Once the checklist above is complete, publish from the Wix Editor:</p>
+        <div class="ui-mock">
+          <div class="mock-label">Wix Editor — Publish Button Location</div>
+          <div class="mock-window">
+            <div class="mock-topbar">
+              <div class="mock-dot" style="background:#ff5f57;"></div>
+              <div class="mock-dot" style="background:#febc2e;"></div>
+              <div class="mock-dot" style="background:#28c840;"></div>
+              <div class="mock-url">editor.wix.com/[your site]</div>
+              <span class="mock-btn blue" style="margin-left:auto;">Publish</span>
+            </div>
+            <div class="mock-body">
+              <p style="font-size:12px; color:var(--muted);">The blue <strong>Publish</strong> button is in the top-right corner of the Wix Editor. Click it → confirm → your site goes live at mindsetovermatter.net.</p>
+              <div class="mock-highlight">Publish button — top right corner</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <strong>Verify the live site on your phone</strong>
+        <p>Open a new browser tab — not the editor — and go to <strong>www.mindsetovermatter.net</strong>. Click through every page as a visitor would. Then open it on your phone and scroll through the whole page. Most of your visitors will arrive on mobile.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">8</div>
+      <div class="step-body">
+        <strong>Post your launch announcement</strong>
+        <p>Troy is most active on Facebook — that's where his audience already is. Post this (or adapt it to his voice) the day the site goes live.</p>
+
+        <div class="copy-suggestion">
+          <div class="copy-label">Original: nothing — no announcement exists yet</div>
+          <blockquote>(Site has not been announced publicly)</blockquote>
+          <div class="copy-label" style="margin-top:10px;">Recommended: Facebook launch post (adapt to Troy's voice)</div>
+          <blockquote>
+            It's finally live.<br/><br/>
+            Mindset Over Matter -- my Christian life coaching platform -- is open.<br/><br/>
+            I've been sitting on this for almost a year. God called me to it. I tried to get around it. Couldn't.<br/><br/>
+            If you're motivated, you believe, and you feel the gap between where you are and where you're supposed to be -- I built this for you.<br/><br/>
+            Three ways in: video library ($30/mo), monthly group coaching ($50/mo), or one private session with me ($150). No contracts on the subscriptions.<br/><br/>
+            mindsetovermatter.net<br/><br/>
+            If this sounds like someone you know, I'd appreciate you sharing it.
+          </blockquote>
+          <div class="copy-source">Keep his voice: casual, honest, direct. "Time to get off the bench" was his own phrase -- if he wants to use it, it fits naturally at the top as an opener.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ── FOOTER SUMMARY ── -->
+<div style="background:var(--navy); color:white; padding:30px 40px; margin-top:40px; border-radius:0;">
+  <div style="font-size:10px; font-weight:800; letter-spacing:2px; text-transform:uppercase; opacity:.5; margin-bottom:10px;">Summary — What to Do In Order</div>
+  <ol style="font-size:13px; line-height:2.5; padding-left:20px; opacity:.9;">
+    <li><strong>Finish Wix Payments payout setup</strong> — bank account so you can receive money</li>
+    <li><strong>Install Wix Online Programs and Wix Events</strong> — two missing apps</li>
+    <li><strong>Build your video library</strong> in Online Programs — link to Pricing Plans — record first 1-2 videos</li>
+    <li><strong>Create group coaching sessions</strong> in Wix Events — first month's schedule with Google Meet link</li>
+    <li><strong>Create your bookable service</strong> in Wix Bookings — remove placeholder cards</li>
+    <li><strong>Polish the home page</strong> — CTA button on hero, hide empty gallery</li>
+    <li><strong>Set up email automations</strong> — 3-email welcome sequence, session reminder, booking confirmation</li>
+    <li><strong>Set SEO titles and descriptions</strong> on all 4 pages</li>
+    <li><strong>Test everything</strong>, turn off test mode, publish, announce</li>
+  </ol>
+  <div style="margin-top:20px; font-size:12px; opacity:.55;">mindsetovermatter.net · Guide produced 2026-03-28 · Updated ongoing</div>
+</div>
+
+</div><!-- /content -->
+</main>
+</div><!-- /layout -->
+</body>
+</html>
